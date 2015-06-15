@@ -20,11 +20,28 @@ public class Circle extends Shape {
         return "center = ("+xPos+","+yPos+")";
     }
 
-    public double area(){
+    public double area(){ //instances method: uses instance fields from the class
         return Math.PI * radius * radius;
     }
-    
-    public static double calculateArea(int radius){
-        return Math.PI * radius * radius;
+
+//    public static double calculateArea(int radius){ // public method: uses parameters and is activated through a class
+//        return Math.PI * radius * radius;
+//    }
+
+
+//    @Override
+//    public void perimeter() { //changed access modifier can only make the method more open.
+//
+//    }
+
+
+    @Override
+    public void fillColor(int newColor) {
+        System.out.println("Filling the circle with color " + newColor);
+    }
+
+    @Override
+    public double perimeter() {
+        return 2 * Math.PI * radius;
     }
 }
