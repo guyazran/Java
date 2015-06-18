@@ -15,6 +15,12 @@ public class Circle extends Shape {
         radius = 10;
     }
 
+    public Circle(int x, int y){
+        xPos = x;
+        yPos = y;
+        radius = 10;
+    }
+
     @Override
     public String toString() {
         return "center = ("+xPos+","+yPos+")";

@@ -30,6 +30,15 @@ public class canvas {
         byte green = 28;
         byte blue = -30;
         c1.fillColor(red, green, blue);
+
+        Circle c2 = null;
+        //doSomethingWithCircle(c2); This will cause "NullPointerException" error
+
+        c2 = new Circle(3, 4);
     }
+
+//    public static void doSomethingWithCircle(Circle c){
+//        c.fillColor(15);
+//    }
 
 }
