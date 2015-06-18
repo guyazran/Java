@@ -29,6 +29,14 @@ public class Circle extends Shape {
         System.out.println("Filling the circle with color " + newColor);
     }
 
+    public void fillColor(byte red, byte green, byte blue){
+        System.out.println("fiiling the circle with color using rgb");
+    }
+
+    public void fillColor(float hugh, float saturation, float brightness){
+        System.out.println("fiiling the circle with color using rgb");
+    }
+
     @Override
     public double perimeter() {
         return 2 * Math.PI * radius;
