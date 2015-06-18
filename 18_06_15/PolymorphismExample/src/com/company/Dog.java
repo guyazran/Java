@@ -18,4 +18,9 @@ public class Dog extends Animal{
     public void sleep() {
         System.out.println("Dream of running in a field");
     }
+
+    @Override
+    public int getAge() {
+        return super.getAge()*7;
+    }
 }
