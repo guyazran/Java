@@ -8,22 +8,31 @@ public class Circle extends Shape {
     int yPos;
     private int radius;
 
+    final static int defaultXpos = 20; //static variables belong to the class (like static methods)
+    final static int defaultYpos = 20; //final variables cannot be changed (not even in the class itself)
+
     //constructor
     public Circle(){
-        xPos = 20;
-        yPos = 20;
-        radius = 10;
+        this(defaultXpos, defaultYpos); // "this" refers to the current object. Cannot use "Circle" because it does not exist yet.
     }
 
     public Circle(int x, int y){
+        this(x, y, 10);
+    }
+
+    public Circle(int x, int y, int r){
         xPos = x;
         yPos = y;
-        radius = 10;
+        radius = r;
+    }
+
+    public Circle(int r){
+        this(defaultXpos, defaultYpos, r);
     }
 
     @Override
     public String toString() {
-        return "center = ("+xPos+","+yPos+")";
+        return "center = ("+xPos+","+yPos+") and radius = " + radius;
     }
 
     public double area(){ //instances method: uses instance fields from the class

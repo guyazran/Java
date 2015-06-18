@@ -35,6 +35,7 @@ public class canvas {
         //doSomethingWithCircle(c2); This will cause "NullPointerException" error
 
         c2 = new Circle(3, 4);
+        System.out.println(c2);
     }
 
 //    public static void doSomethingWithCircle(Circle c){
