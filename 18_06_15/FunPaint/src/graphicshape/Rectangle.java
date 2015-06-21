@@ -9,11 +9,28 @@ public class Rectangle extends Shape {
     int width;
     int height;
 
+    final static int defaultxPos = 10;
+    final static int defaultYpos = 10;
+    final static int defaultWidth = 10;
+    final static int defaultxHeight = 10;
+
     public Rectangle(){
-        xPos = 10;
-        yPos = 10;
-        width = 20;
-        height = 10;
+        this(defaultxPos, defaultYpos);
+    }
+
+    public Rectangle(int x, int y){
+        this(x, y, defaultWidth, defaultxHeight);
+    }
+    
+    public Rectangle(int x, int y, int w, int h){
+        xPos = x;
+        yPos = y;
+        width = w;
+        height = h;
+    }
+
+    public Rectangle(int w){
+        this(defaultxPos, defaultYpos, w, defaultxHeight);
     }
 
     @Override
