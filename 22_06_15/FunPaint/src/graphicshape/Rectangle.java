@@ -12,14 +12,28 @@ public class Rectangle extends Shape {
     }
     
     public Rectangle(int width, int height){
+        setWidth(width);
+        setHeight(height);
+    }
+
+    //getter: a function that returns a value of a field in a controlled manner
+    public int getWidth(){
+        return width;
+    }
+
+    //setter: a function that changes the value of a field in a controlled manner
+    public void setWidth(int width){
         if (width > 0)
             this.width = width;
-        else
-            this.width = 0;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
         if (height > 0)
             this.height = height;
-        else
-            this.height = 0;
     }
 
     @Override

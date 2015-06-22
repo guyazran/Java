@@ -4,8 +4,8 @@ package graphicshape;
  * Created by guyazran on 6/11/15.
  */
 public class Circle extends Shape {
-    int xPos;
-    int yPos;
+    private int xPos;
+    private int yPos;
     private int radius;
 
     final static int defaultXpos = 20; //static variables belong to the class (like static methods)
@@ -21,13 +21,35 @@ public class Circle extends Shape {
     }
 
     public Circle(int x, int y, int r){
-        xPos = x;
-        yPos = y;
-        radius = r;
+        setXpos(x);
+        setYpos(y);
+        setRadius(r);
     }
 
     public Circle(int r){
         this(defaultXpos, defaultYpos, r);
+    }
+
+    public int getXpos(){
+        return xPos;
+    }
+    public void setXpos(int xPos){
+        this.xPos = xPos;
+    }
+
+    public int getYpos() {
+        return yPos;
+    }
+    public void setYpos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+    public void setRadius(int radius) {
+        if (radius > 0)
+            this.radius = radius;
     }
 
     @Override
