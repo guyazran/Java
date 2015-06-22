@@ -3,6 +3,7 @@ package appcanvas;
 import graphicshape.Circle;
 import graphicshape.Rectangle;
 import graphicshape.Shape;
+import graphicshape.Square;
 
 /**
  * Created by guyazran on 6/11/15.
@@ -10,8 +11,11 @@ import graphicshape.Shape;
 public class canvas {
 
     public static void main(String[] args) {
-
-
+        Square square = new Square(4);
+        square.setSide(5);
+        square.setWidth(12);
+        System.out.println(square.area());
+        System.out.println(square.perimeter());
     }
 
     public static double sumOfArea(Shape[] shapes){

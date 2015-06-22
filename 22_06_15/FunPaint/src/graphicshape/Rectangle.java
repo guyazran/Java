@@ -7,9 +7,9 @@ public class Rectangle extends Shape {
     private int width;
     private int height;
 
-    public Rectangle(){
-        this(20, 40);
-    }
+//    public Rectangle(){
+//        this(20, 40);
+//    }
     
     public Rectangle(int width, int height){
         setWidth(width);
