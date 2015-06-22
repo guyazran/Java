@@ -14,6 +14,10 @@ public class Shape {
         return 0;
     }
 
+    public double area(){
+        return 0;
+    }
+
     public static double perimeterSum(Shape[] shapes){
         double result = 0;
         for (int i = 0; i < shapes.length; i++) {

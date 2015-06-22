@@ -57,6 +57,7 @@ public class Circle extends Shape {
         return "center = ("+xPos+","+yPos+") and radius = " + radius;
     }
 
+    @Override
     public double area(){ //instances method: uses instance fields from the class
         return Math.PI * radius * radius;
     }
