@@ -36,6 +36,10 @@ public class Rectangle extends Shape {
             this.height = height;
     }
 
+    public double area(){
+        return width*height;
+    }
+
     @Override
     public double perimeter() {
         return (width + height) * 2;
