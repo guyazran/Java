@@ -4,33 +4,22 @@ package graphicshape;
  * Created by guyazran on 6/15/15.
  */
 public class Rectangle extends Shape {
-    int xPos;
-    int yPos;
-    int width;
-    int height;
-
-    final static int defaultxPos = 10;
-    final static int defaultYpos = 10;
-    final static int defaultWidth = 10;
-    final static int defaultxHeight = 10;
+    private int width;
+    private int height;
 
     public Rectangle(){
-        this(defaultxPos, defaultYpos);
-    }
-
-    public Rectangle(int x, int y){
-        this(x, y, defaultWidth, defaultxHeight);
+        this(20, 40);
     }
     
-    public Rectangle(int x, int y, int w, int h){
-        xPos = x;
-        yPos = y;
-        width = w;
-        height = h;
-    }
-
-    public Rectangle(int w){
-        this(defaultxPos, defaultYpos, w, defaultxHeight);
+    public Rectangle(int width, int height){
+        if (width > 0)
+            this.width = width;
+        else
+            this.width = 0;
+        if (height > 0)
+            this.height = height;
+        else
+            this.height = 0;
     }
 
     @Override
