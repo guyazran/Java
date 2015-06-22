@@ -56,9 +56,16 @@ public class Fraction extends Number{
     }
 
     public void factor(){
-        int small = numerator;
-        if (numerator>denominator){
-            denominator = small;
+        int absoluteNumerator = numerator;
+        int absoluteDenominator = denominator;
+        if (absoluteNumerator < 0)
+            absoluteNumerator *= -1;
+        if (absoluteDenominator < 0)
+            absoluteDenominator *= -1;
+
+        int small = absoluteNumerator;
+        if (absoluteNumerator>absoluteDenominator){
+            absoluteDenominator = small;
         }
         int factor = small;
         while((numerator % factor != 0 || denominator % factor != 0) && factor != 0){

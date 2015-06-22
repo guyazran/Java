@@ -12,7 +12,7 @@ public class Main {
         nums[3] = new Double(10.0);
         System.out.println(sum(nums));
 
-        Fraction f = new Fraction(2, 10);
+        Fraction f = new Fraction(-2, 10);
         f.factor();
         System.out.println(f);
 
