@@ -55,5 +55,18 @@ public class Fraction extends Number{
         return (double)numerator/denominator;
     }
 
-
+    public void factor(){
+        int small = numerator;
+        if (numerator>denominator){
+            denominator = small;
+        }
+        int factor = small;
+        while((numerator % factor != 0 || denominator % factor != 0) && factor != 0){
+            factor--;
+        }
+        if (factor != 0){
+            numerator /= factor;
+            denominator /= factor;
+        }
+    }
 }
