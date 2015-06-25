@@ -1,47 +1,42 @@
 package graphicshape;
 
+import appcanvas.Point;
+
 /**
  * Created by guyazran on 6/11/15.
  */
 public class Circle extends Shape {
-    private int xPos;
-    private int yPos;
+
+    private Point center;
     private int radius;
 
-    final static int defaultXpos = 20; //static variables belong to the class (like static methods)
-    final static int defaultYpos = 20; //final variables cannot be changed (not even in the class itself)
+    public static final int DEFAULT_X = 21;
+    public static final int DEFAULT_Y = 21;
+    static final int DEFAULT_RADIUS = 10;
 
     //constructor
     public Circle(){
-        this(defaultXpos, defaultYpos); // "this" refers to the current object. Cannot use "Circle" because it does not exist yet.
+        this(DEFAULT_X, DEFAULT_Y);
     }
 
     public Circle(int x, int y){
-        this(x, y, 10);
+        this(new Point(DEFAULT_X, DEFAULT_Y), DEFAULT_RADIUS);
     }
 
-    public Circle(int x, int y, int r){
-        setXpos(x);
-        setYpos(y);
+    public Circle(Point center, int r){
+        setCenter(center);
         setRadius(r);
     }
 
     public Circle(int r){
-        this(defaultXpos, defaultYpos, r);
+        this(new Point(DEFAULT_X, DEFAULT_Y), r);
     }
 
-    public int getXpos(){
-        return xPos;
+    public Point getCenter(){
+        return center;
     }
-    public void setXpos(int xPos){
-        this.xPos = xPos;
-    }
-
-    public int getYpos() {
-        return yPos;
-    }
-    public void setYpos(int yPos) {
-        this.yPos = yPos;
+    public void setCenter(Point newCenter){
+        center = newCenter;
     }
 
     public int getRadius() {
@@ -54,7 +49,7 @@ public class Circle extends Shape {
 
     @Override
     public String toString() {
-        return "center = ("+xPos+","+yPos+") and radius = " + radius;
+        return "center = "+center+" and radius = " + radius;
     }
 
     @Override
@@ -78,5 +73,18 @@ public class Circle extends Shape {
     @Override
     public double perimeter() {
         return 2 * Math.PI * radius;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj instanceof Circle){
+            Circle other = (Circle)obj;
+            return this.center.equals(other.center) && this.radius == other.radius;
+        }
+        return false;
     }
 }

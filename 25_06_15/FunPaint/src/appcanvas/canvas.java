@@ -22,21 +22,27 @@ public class canvas {
 //        System.out.println(p1.distanceFromPoint(p3));
 //        System.out.println(p1.distanceFromOrigin());
 
-        Point p1 = new Point(3, 4);
-        Point p2 = new Point(3, 4);
-        if (p1 == p2){ // the comparison compares the pointers and not the value of their fields, therefor they will be different for all field values.
-            System.out.println("p1 and p2 are the same");
-        } else {
-            System.out.println("p1 and p2 are different");
-        }
+//        Point p1 = new Point(3, 4);
+//        Point p2 = new Point(3, 4);
+//        if (p1 == p2){ // the comparison compares the pointers and not the value of their fields, therefor they will be different for all field values.
+//            System.out.println("p1 and p2 are the same");
+//        } else {
+//            System.out.println("p1 and p2 are different");
+//        }
+//
+//        Point p3 = new Point(3, 4);
+//        Point p4 = new Point(3, 4);
+//        if (p3.equals(p4)){
+//            System.out.println("p1 and p2 are the same");
+//        } else {
+//            System.out.println("p1 and p2 are different");
+//        }
 
-        Point p3 = new Point(3, 4);
-        Point p4 = new Point(3, 4);
-        if (p3.equals(p4)){
-            System.out.println("p1 and p2 are the same");
-        } else {
-            System.out.println("p1 and p2 are different");
-        }
+        Circle c1 = new Circle();
+        Circle c2 = new Circle(new Point(21, 21), 10);
+        Circle c3 = new Circle(new Point(22, 21), 10);
+        System.out.println(c1.equals(c2));
+        System.out.println(c1.equals(c3));
 
     }
 
