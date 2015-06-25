@@ -8,7 +8,7 @@ public class Point3D extends Point {
 
     public Point3D(int x, int y, int z) {
         super(x, y);
-        zPos = z;
+        setZpos(z);
     }
 
     public void setZpos(int z){
