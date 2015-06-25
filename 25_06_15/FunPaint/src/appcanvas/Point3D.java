@@ -55,4 +55,13 @@ public class Point3D extends Point {
     protected double sumOfSquares(int x, int y) {
         return sumOfSquares(x, y, newZ);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj) && obj instanceof Point3D) {
+            Point3D other = (Point3D)obj;
+            return this.zPos == other.zPos;
+        }
+        return false;
+    }
 }

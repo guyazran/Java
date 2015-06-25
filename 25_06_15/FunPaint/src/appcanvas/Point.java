@@ -54,4 +54,17 @@ public class Point {
         int deltaY = y - yPos;
         return deltaX*deltaX + deltaY*deltaY;
     }
+
+    @Override // in Object, the method equals compares pointers and must be overridden to compare what it is you want to compare between the specific object.
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj instanceof Point){
+            Point other = (Point)obj;
+            return this.xPos == other.xPos && this.yPos == other.yPos;
+        }
+        return false;
+    }
 }
