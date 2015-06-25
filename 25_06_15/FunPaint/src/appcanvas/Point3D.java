@@ -6,6 +6,8 @@ package appcanvas;
 public class Point3D extends Point {
     private int zPos;
 
+    private int newZ;
+
     public Point3D(int x, int y, int z) {
         super(x, y);
         setZpos(z);
@@ -25,7 +27,8 @@ public class Point3D extends Point {
     }
 
     public double distanceFromPoint(int x, int y, int z) {
-        return Math.sqrt(sumOfSquares(x,y,z));
+        newZ = z;
+        return super.distanceFromPoint(x, y);
     }
 
     @Override
@@ -33,17 +36,23 @@ public class Point3D extends Point {
         return distanceFromPoint(x, y, 0);
     }
 
-    public double distanceFromPoint(Point3D p){
-        return distanceFromPoint(p.getXpos(), p.getYpos(), p.getZpos());
-    }
-
     @Override
     public double distanceFromPoint(Point p) {
-        return distanceFromPoint(p.getXpos(), p.getYpos(), 0);
+        if(p instanceof Point3D){
+            Point3D theOtherPoint = (Point3D)p;
+            return distanceFromPoint(theOtherPoint.getXpos(), theOtherPoint.getYpos(), theOtherPoint.getZpos());
+        } else {
+            return distanceFromPoint(p.getXpos(), p.getYpos(), 0);
+        }
     }
 
     protected double sumOfSquares(int x, int y, int z) {
         int deltaZ = z - zPos;
         return super.sumOfSquares(x, y) + deltaZ*deltaZ;
+    }
+
+    @Override
+    protected double sumOfSquares(int x, int y) {
+        return sumOfSquares(x, y, newZ);
     }
 }
