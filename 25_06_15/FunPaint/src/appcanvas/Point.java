@@ -11,6 +11,10 @@ public class Point {
         setXpos(x);
         setYpos(y);
     }
+    //cloning constructor - copies the values of an objects field into a new object.
+    public Point(Point point){
+        this(point.getXpos(), point.getYpos());
+    }
 
     public int getXpos() {
         return xPos;

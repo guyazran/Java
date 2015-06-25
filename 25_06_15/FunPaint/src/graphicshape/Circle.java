@@ -23,6 +23,11 @@ public class Circle extends Shape {
         this(new Point(DEFAULT_X, DEFAULT_Y), DEFAULT_RADIUS);
     }
 
+    //cloning constructor
+    public Circle(Circle circle){
+        this(circle.getCenter(), circle.getRadius());
+    }
+
     public Circle(Point center, int r){
         setCenter(center);
         setRadius(r);
@@ -33,11 +38,23 @@ public class Circle extends Shape {
     }
 
     public Point getCenter(){
-        return center;
+        //return center;
+        return new Point(center); //returns a pointer to a new object thus denying access to the original center field
     }
-    public void setCenter(Point newCenter){
-        center = newCenter;
+    public void setCenter(Point center){
+        //this.center = center; //copies the pointer and therefor allows access to the center through the point used to create it
+        this.center = new Point(center); //creates a new object which no one has access to
     }
+
+    /*
+    a getter and a setter of an object can be written in two ways (example: center)
+    getCenter():
+    1.return center; this returns the address to the objects and allows manipulating of the object through an external one. this is called aliasing
+    2. return new point(center); this returns an address to a new object that was created that is the same as this object. this is without aliasing
+    setCenter():
+    1. this.center = center; this gives center the address of an existing external object and can now be manipulated through it. aliasing
+    2. this.center = new(center); this gives center the address to a new object created with the values of an external object. without aliasing
+     */
 
     public int getRadius() {
         return radius;

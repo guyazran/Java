@@ -10,7 +10,12 @@ public class Rectangle extends Shape {
 //    public Rectangle(){
 //        this(20, 40);
 //    }
-    
+
+    //cloning constructor
+    public Rectangle(Rectangle rect){
+        this(rect.getWidth(), rect.getHeight());
+    }
+
     public Rectangle(int width, int height){
         setWidth(width);
         setHeight(height);
