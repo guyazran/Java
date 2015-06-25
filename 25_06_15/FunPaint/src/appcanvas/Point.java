@@ -31,7 +31,7 @@ public class Point {
         return "(" + componentsByComma() + ")";
     }
 
-    String componentsByComma(){
+    protected String componentsByComma(){
         return xPos + "," + yPos;
     }
 
@@ -49,7 +49,7 @@ public class Point {
     }
 
     // helper method
-    double sumOfSquares(int x, int y){
+    protected double sumOfSquares(int x, int y){
         int deltaX = x - xPos;
         int deltaY = y - yPos;
         return deltaX*deltaX + deltaY*deltaY;

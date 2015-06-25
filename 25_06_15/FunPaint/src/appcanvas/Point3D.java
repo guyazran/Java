@@ -20,7 +20,7 @@ public class Point3D extends Point {
     }
 
     @Override
-    String componentsByComma() {
+    protected String componentsByComma() {
         return super.componentsByComma() + ',' + zPos;
     }
 
@@ -42,14 +42,8 @@ public class Point3D extends Point {
         return distanceFromPoint(p.getXpos(), p.getYpos(), 0);
     }
 
-    double sumOfSquares(int x, int y, int z) {
+    protected double sumOfSquares(int x, int y, int z) {
         int deltaZ = z - zPos;
         return super.sumOfSquares(x, y) + deltaZ*deltaZ;
     }
-
-    @Override
-    double sumOfSquares(int x, int y) {
-        return sumOfSquares(x, y, 0);
-    }
-
 }
