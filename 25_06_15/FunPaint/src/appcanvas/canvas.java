@@ -44,19 +44,27 @@ public class canvas {
 //        System.out.println(c1.equals(c2));
 //        System.out.println(c1.equals(c3));
 
-        //hacking into the xPos or yPos of a circle.
-        Point p1 = new Point(4, 3);
-        Circle c1 = new Circle(p1, 18);
-        p1.setYpos(14); //the cloning constructor activated in getCenter() makes sure that c1.center and p1 point to different objects of the same values
-        System.out.println(c1);
-
-        Point hackedCenter = c1.getCenter(); //after changing getCenter() hackedCenter will Point to a new object
-        hackedCenter.setYpos(100); //this will affect the new  object created in getCenter()
-        System.out.println(c1);
-        /*
-        if we do not wish to allow aliasing or the manipulation of fields that are objects, we must change
-        their getters and setters to be written without aliasing
-         */
+//        //hacking into the xPos or yPos of a circle.
+//        Point p1 = new Point(4, 3);
+//        Circle c1 = new Circle(p1, 18);
+//        p1.setYpos(14); //the cloning constructor activated in getCenter() makes sure that c1.center and p1 point to different objects of the same values
+//        System.out.println(c1);
+//
+//        Point hackedCenter = c1.getCenter(); //after changing getCenter() hackedCenter will Point to a new object
+//        hackedCenter.setYpos(100); //this will affect the new  object created in getCenter()
+//        System.out.println(c1);
+//        /*
+//        if we do not wish to allow aliasing or the manipulation of fields that are objects, we must change
+//        their getters and setters to be written without aliasing
+//         */
+        Point p1 = new Point(0, 2);
+        Point p2 = new Point(6, 0);
+        Segment s = new Segment(p1, p2);
+        System.out.println(s);
+        Point p3 = new Point(-2, -4);
+        Segment perpS = new Segment(p3, p1);
+        System.out.println(perpS);
+        System.out.println(s.distanceFromStraight(p3));
     }
 
     public static double sumOfArea(Shape[] shapes){
