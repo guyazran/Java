@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cb6c6bf-93d9-4960-8280-5baba3d2be2d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Static/src/com/company/Dog.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Static/Static.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Static/.idea/compiler.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Static/.idea/copyright/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../Static/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Static/src/com/company/Dog.java" afterPath="$PROJECT_DIR$/../Static/src/com/company/Dog.java" />
     </list>
     <ignored path="FunPaint.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,7 +55,7 @@
       <file leaf-file-name="Segment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/appcanvas/Segment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.72727275">
+            <state vertical-scroll-proportion="0.94545454">
               <caret line="146" column="9" selection-start-line="146" selection-start-column="9" selection-end-line="146" selection-end-column="9" />
               <folding />
             </state>
@@ -557,12 +552,12 @@
       <workItem from="1435557914794" duration="10000" />
       <workItem from="1435557990695" duration="12413000" />
       <workItem from="1435574374314" duration="3517000" />
-      <workItem from="1435578174916" duration="3411000" />
+      <workItem from="1435578174916" duration="3936000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43357000" />
+    <option name="totallyTimeSpent" value="43882000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1134,7 +1129,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/appcanvas/Segment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72727275">
+        <state vertical-scroll-proportion="0.94545454">
           <caret line="146" column="9" selection-start-line="146" selection-start-column="9" selection-end-line="146" selection-end-column="9" />
           <folding />
         </state>

@@ -9,3 +9,11 @@ public class Dog {
         counter++;
     }
 }
+
+class Cat{ // a class within a class. only one can be public. the rest can only be used in the same package.
+    static boolean catCreated = false;
+
+    public Cat() {
+
+    }
+}
