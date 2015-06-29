@@ -6,6 +6,8 @@ package appcanvas;
 public class Segment {
     private Point p1;
     private Point p2;
+    private double length; // a variable that exists to hold the value of length and not have to calculate it over and over (better performance, takes more space)
+    private boolean lengthCalculated = false;
 
     public Segment(Point p1, Point p2) {
         setP1(p1);
@@ -22,6 +24,7 @@ public class Segment {
 
     public void setP1(Point p1) {
         this.p1 = new Point(p1);
+        lengthCalculated = false;
     }
 
     public Point getP2() {
@@ -30,27 +33,42 @@ public class Segment {
 
     public void setP2(Point p2) {
         this.p2 = new Point(p2);
+        lengthCalculated = false; // if a point is changed, the length must be recalculated
     }
 
-    public double length(){
-        return p1.distanceFromPoint(p2);
+    private double length(){ // this method will only calculate the length of the segment on the first time
+        if (!lengthCalculated)
+            calculateLength();
+        return length;
+    }
+
+    public void calculateLength(){
+        length = p1.distanceFromPoint(p2);
+        lengthCalculated = true;
     }
 
     public double slope(){
         double deltaX = p1.getXpos() - p2.getXpos();
         double deltaY = p1.getYpos() - p2.getYpos();
-        return (double)deltaY/deltaX;
+        if(deltaX == 0){
+            return Double.MAX_VALUE; //"infinity"
+        }
+        return deltaY/deltaX;
     }
 
-    public double distanceFromStraight(Point p){
-//        return Math.abs((p2.getYpos() - p1.getYpos())*p.getXpos() - (p2.getXpos() - p1.getXpos())*p.getYpos()+ p2.getXpos()*p1.getYpos() - p2.getYpos()*p1.getXpos())
-//               /this.length();
-        double otherSlope = this.perpendicularSlope();
-        double otherYintercept = yIntercept(p, otherSlope);
-        double commonX = findCommonX(otherSlope, otherYintercept);
-        double commonY = findCommonY(commonX);
-
-        return distanceFromPoint(p, commonX, commonY);
+    public double distanceFromPoint(Point p){
+        double x1, y1, x2, y2, x0, y0;
+        x1 = this.p1.getXpos();
+        y1 = this.p1.getYpos();
+        x2 = this.p2.getXpos();
+        y2 = this.p2.getYpos();
+        x0 = p.getXpos();
+        y0 = p.getYpos();
+        double temp = (y2 - y1)*x0 - (x2 - x1)*y0 + x2*y1 - y2*x1;
+        if(temp<0){
+            temp *= -1;
+        }
+        return temp/length();
     }
 
     double perpendicularSlope(){
@@ -73,10 +91,18 @@ public class Segment {
         return this.slope()*x + this.yIntercept();
     }
 
-    static double distanceFromPoint(Point p, double x, double y){
-        double deltaX = x - p.getXpos();
-        double deltaY = y - p.getYpos();
-        return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+    public boolean isPointOnSegment(Point p){
+        int leftX = p1.getXpos();
+        int rightX = p2.getXpos()
+        if(leftX > rightX) {
+            leftX = p2.getXpos();
+            rightX = p1.getXpos()
+        }
+
+        double distance = distanceFromPoint(p);
+
+        if(p.getXpos() >= p1.getXpos() && p <=)
+        return distance > -1 && distance < 1;
     }
 
     @Override
