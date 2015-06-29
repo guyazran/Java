@@ -92,16 +92,11 @@ public class Segment {
     }
 
     public boolean isPointOnSegment(Point p){
-        int leftX = p1.getXpos();
-        int rightX = p2.getXpos();
-        int otherX = p.getXpos();
-        if(leftX > rightX) {
-            leftX = p2.getXpos();
-            rightX = p1.getXpos();
+        Border border = getBorder();
+        if(p.getXpos() >= border.leftBorder  && p.getXpos() <= border.rightBorder && p.getYpos() >= border.topBorder && p.getYpos() <= border.bottomBorder){
+            double d = distanceFromPoint(p);
+            return d < 0.5;
         }
-        double distance = distanceFromPoint(p);
-        if(otherX >= leftX  && otherX <= rightX)
-            return distance > -1 && distance < 1;
         return false;
     }
 
@@ -121,5 +116,40 @@ public class Segment {
             return this.p1.equals(other.p1) && this.p2.equals(other.p2);
         }
         return false;
+    }
+
+    public void drawOnCanvas(boolean[][] canvas){
+        Border border = getBorder();
+        if(canvas == null)
+            return;
+        
+        for (int i = border.topBorder; i <= border.bottomBorder+1; i++) {
+            for (int j = border.leftBorder; j <= border.rightBorder; j++) {
+                Point p = new Point(j,i);
+                if(isPointOnSegment(p))
+                    p.drawOnCanvas(canvas);
+            }
+        }
+    }
+
+    public Border getBorder(){
+        int leftBorder = p1.getXpos();
+        int rightBorder = p2.getXpos();
+        if(p1.getXpos() > p2.getXpos()) {
+            leftBorder = p2.getXpos();
+            rightBorder = p1.getXpos();
+        }
+        int topBorder = p1.getYpos();
+        int bottomBorder = p2.getYpos();
+        if (p1.getYpos() > p2.getYpos()) {
+            topBorder = p2.getYpos();
+            bottomBorder = p2.getYpos();
+        }
+        Border border = new Border();
+        border.leftBorder = leftBorder;
+        border.rightBorder = rightBorder;
+        border.topBorder = topBorder;
+        border.bottomBorder = bottomBorder;
+        return border;
     }
 }
