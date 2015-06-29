@@ -36,7 +36,7 @@ public class Segment {
         lengthCalculated = false; // if a point is changed, the length must be recalculated
     }
 
-    private double length(){ // this method will only calculate the length of the segment on the first time
+    public double length(){ // this method will only calculate the length of the segment on the first time
         if (!lengthCalculated)
             calculateLength();
         return length;
@@ -122,7 +122,7 @@ public class Segment {
         Border border = getBorder();
         if(canvas == null)
             return;
-        
+
         for (int i = border.topBorder; i <= border.bottomBorder+1; i++) {
             for (int j = border.leftBorder; j <= border.rightBorder; j++) {
                 Point p = new Point(j,i);
@@ -143,7 +143,7 @@ public class Segment {
         int bottomBorder = p2.getYpos();
         if (p1.getYpos() > p2.getYpos()) {
             topBorder = p2.getYpos();
-            bottomBorder = p2.getYpos();
+            bottomBorder = p1.getYpos();
         }
         Border border = new Border();
         border.leftBorder = leftBorder;
