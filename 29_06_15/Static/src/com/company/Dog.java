@@ -11,9 +11,15 @@ public class Dog {
 }
 
 class Cat{ // a class within a class. only one can be public. the rest can only be used in the same package.
-    static boolean catCreated = false;
+    private static Cat cat;
 
-    public Cat() {
+    private Cat() {
 
+    }
+
+    public static Cat getCat(){
+        if (cat == null)
+            cat = new Cat();
+        return cat;
     }
 }

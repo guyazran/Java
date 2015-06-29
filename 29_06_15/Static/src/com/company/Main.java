@@ -6,5 +6,7 @@ public class Main {
         Dog d1 = new Dog();
         Dog d2 = new Dog();
         System.out.println(Dog.counter);
+
+        Cat c = Cat.getCat();
     }
 }
