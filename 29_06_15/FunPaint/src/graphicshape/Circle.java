@@ -5,7 +5,7 @@ import appcanvas.Point;
 /**
  * Created by guyazran on 6/11/15.
  */
-public class Circle extends Shape {
+public final class Circle extends Shape { //no other class can inherit from a final class
 
     private Point center;
     private int radius;
