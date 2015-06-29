@@ -93,16 +93,16 @@ public class Segment {
 
     public boolean isPointOnSegment(Point p){
         int leftX = p1.getXpos();
-        int rightX = p2.getXpos()
+        int rightX = p2.getXpos();
+        int otherX = p.getXpos();
         if(leftX > rightX) {
             leftX = p2.getXpos();
-            rightX = p1.getXpos()
+            rightX = p1.getXpos();
         }
-
         double distance = distanceFromPoint(p);
-
-        if(p.getXpos() >= p1.getXpos() && p <=)
-        return distance > -1 && distance < 1;
+        if(otherX >= leftX  && otherX <= rightX)
+            return distance > -1 && distance < 1;
+        return false;
     }
 
     @Override

@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9cb6c6bf-93d9-4960-8280-5baba3d2be2d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/appcanvas/Segment.java" afterPath="$PROJECT_DIR$/src/appcanvas/Segment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/appcanvas/canvas.java" afterPath="$PROJECT_DIR$/src/appcanvas/canvas.java" />
     </list>
     <ignored path="FunPaint.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -100,8 +99,8 @@
       <file leaf-file-name="Segment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/appcanvas/Segment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2555147">
-              <caret line="95" column="33" selection-start-line="95" selection-start-column="33" selection-end-line="95" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.3658088">
+              <caret line="101" column="47" selection-start-line="101" selection-start-column="47" selection-end-line="101" selection-end-column="47" />
               <folding>
                 <element signature="e#461#462#0" expanded="true" />
                 <element signature="e#515#516#0" expanded="true" />
@@ -553,12 +552,12 @@
       <workItem from="1435477755531" duration="749000" />
       <workItem from="1435478673207" duration="3423000" />
       <workItem from="1435557914794" duration="10000" />
-      <workItem from="1435557990695" duration="6549000" />
+      <workItem from="1435557990695" duration="6744000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30565000" />
+    <option name="totallyTimeSpent" value="30760000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1116,8 +1115,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/appcanvas/Segment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2555147">
-          <caret line="95" column="33" selection-start-line="95" selection-start-column="33" selection-end-line="95" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.3658088">
+          <caret line="101" column="47" selection-start-line="101" selection-start-column="47" selection-end-line="101" selection-end-column="47" />
           <folding>
             <element signature="e#461#462#0" expanded="true" />
             <element signature="e#515#516#0" expanded="true" />
