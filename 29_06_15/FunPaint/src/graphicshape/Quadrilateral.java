@@ -16,6 +16,10 @@ public class Quadrilateral extends Shape {
         this.p4 = p4;
     }
 
+    public Quadrilateral(Quadrilateral quad){
+        this(quad.getP1(), quad.getP2(), quad.getP3(), quad.getP4());
+    }
+
     public Point getP1() {
         return p1;
     }
@@ -53,5 +57,22 @@ public class Quadrilateral extends Shape {
     @Override
     public double area() {
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "A quadrilateral with four vertices in points" + p1 + " " + p2 + " " + p3 + " and" + p4;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj instanceof Segment) {
+            Quadrilateral other = new Quadrilateral((Quadrilateral) obj);
+            return this.p1.equals(other.p1) && this.p2.equals(other.p2) && this.p3.equals(other.p3 )&& this.p4.equals(other.p4);
+        }
+        return false;
     }
 }

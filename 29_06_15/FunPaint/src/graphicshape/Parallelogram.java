@@ -16,4 +16,5 @@ public class Parallelogram extends Quadrilateral {
         Segment seg1 = new Segment(getP1(), getP2());
         return seg1.length()*seg1.distanceFromPoint(getP3());
     }
+
 }
