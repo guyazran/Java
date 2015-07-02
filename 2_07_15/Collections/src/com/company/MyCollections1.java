@@ -31,7 +31,7 @@ public class MyCollections1 implements Listable{
 
     public boolean remove(int number){
         int index = this.indexOf(number);
-        
+
 
         return true;
     }
