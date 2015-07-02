@@ -159,4 +159,9 @@ public class Segment {
         border.bottomBorder = bottomBorder;
         return border;
     }
+    //inner class
+
+    class Border { // can only be used within segment. the keyword public will not make a difference
+        int leftBorder, rightBorder, topBorder, bottomBorder;
+    }
 }

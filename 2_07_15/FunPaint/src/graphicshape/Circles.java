@@ -8,10 +8,11 @@ public class Circles {
     void getArea(){
         Circle circle = new Circle();
 
-        Shape s1 = new Shape();
-        s1.color = 0x1f3daa7c;
+        //cannot create abstract class
+        //Shape s1 = new Shape();
+        //s1.color = 0x1f3daa7c;
 
-        circle.color = 123; // is possible because Circle extends Shape
+        //circle.color = 123; // is possible because Circle extends Shape
 
 
     }
