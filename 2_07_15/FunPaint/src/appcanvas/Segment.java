@@ -91,11 +91,17 @@ public class Segment {
         return this.slope()*x + this.yIntercept();
     }
 
-    public boolean isPointOnSegment(Point p){
-        Border border = getBorder();
-        if(p.getXpos() >= border.leftBorder  && p.getXpos() <= border.rightBorder && p.getYpos() >= border.topBorder && p.getYpos() <= border.bottomBorder){
-            double d = distanceFromPoint(p);
-            return d < 0.5;
+    protected boolean isPointNearSegment(Point p){ // this function is meant to be used only in drawOnCanvas(). no need to check border
+        //Border border = getBorder(); //there is no need to check the border when called from drawOnCanvas()(performance)
+        double d = distanceFromPoint(p);
+        return d < 0.4;
+
+    }
+
+    public boolean isPointOnSegment(Point p){ //a border will be created only when checking another point, drawOnCanvas() skips this method
+        Border border = getBorder(); // drawOnCanvas() skips this method and thus creates less objects
+        if(p.getXpos() >= border.leftBorder  && p.getXpos() <= border.rightBorder && p.getYpos() >= border.topBorder && p.getYpos() <= border.bottomBorder) {
+            return isPointNearSegment(p);
         }
         return false;
     }
@@ -122,11 +128,12 @@ public class Segment {
         Border border = getBorder();
         if(canvas == null)
             return;
-
+        Point p = new Point(0,0);
         for (int i = border.topBorder; i <= border.bottomBorder+1; i++) {
             for (int j = border.leftBorder; j <= border.rightBorder; j++) {
-                Point p = new Point(j,i);
-                if(isPointOnSegment(p))
+                p.setXpos(j); // Point p = new Point(j,i);
+                p.setYpos(i); // in this method performance is optimized because an object is not created for every iteration of the loop
+                if(isPointNearSegment(p)) // skips the border check in order to create less objects and skip the long "if" statement in isPointOnSegment()
                     p.drawOnCanvas(canvas);
             }
         }
