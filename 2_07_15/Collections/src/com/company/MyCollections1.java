@@ -3,7 +3,7 @@ package com.company;
 /**
  * Created by guyazran on 7/2/15.
  */
-public class MyCollections1 {
+public class MyCollections1 implements Listable{
 
     private int[] arr;
     private int counter;
