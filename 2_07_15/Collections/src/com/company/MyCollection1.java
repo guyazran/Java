@@ -3,12 +3,12 @@ package com.company;
 /**
  * Created by guyazran on 7/2/15.
  */
-public class MyCollections1 implements Listable{
+public class MyCollection1 implements Listable{
 
     private int[] arr;
     private int counter;
 
-    public MyCollections1(){
+    public MyCollection1(){
         arr = new int[10];
         counter = 0;
     }
@@ -31,15 +31,23 @@ public class MyCollections1 implements Listable{
 
     public boolean remove(int number){
         int index = this.indexOf(number);
-
-
+        if (index < 0)
+            return false;
+        for (int i = index; i < counter; i++) {
+            arr[i] = arr[i+1];
+        }
+        counter--;
         return true;
     }
 
     public void add(int number, int index){
         makeRoomIfNecessary();
-        for (int i = counter - 1; i < index - 1; i++) {
-
+        if (index>=0 && index<counter) {
+            for (int i = counter; i > index; i--) {
+                arr[i] = arr[i - 1];
+            }
+            arr[index] = number;
+            counter++;
         }
     }
 
@@ -55,7 +63,21 @@ public class MyCollections1 implements Listable{
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj instanceof MyCollection1) {
+            MyCollection1 other = (MyCollection1)obj;
+            if (this.counter == other.counter) {
+                for (int i = 0; i < counter; i++) {
+                    if (arr[i] != other.arr[i])
+                        return false;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -71,31 +93,41 @@ public class MyCollections1 implements Listable{
     }
 
     public int get(int index){
+        if (index>=0 && index<counter)
+            return arr[index];
         return Integer.MIN_VALUE;
     }
 
     public int indexOf(int number){
         if (counter == 0)
             return -1;
-        int index = 0;
-        while(arr[index]!=number){
-            index++;
-            if (index>=counter)
-                return -1;
+        for (int i = 0; i < counter; i++) {
+            if (arr[i] == number) {
+                return i;
+            }
         }
-        return index;
+        return -1;
     }
 
     public int lastIndexOf(int number){
+        if (counter == 0)
+            return -1;
+        for (int i = counter - 1; i > -1; i--) {
+            if (arr[i] == number) {
+                return i;
+            }
+        }
         return -1;
     }
 
     public void removeAll(int number){
-
+        while (contains(number))
+            remove(number);
     }
 
     public void set(int number, int index){
-
+        if (index>=0 && index<counter)
+            arr[index] = number;
     }
 
     public int[] toArray(){
