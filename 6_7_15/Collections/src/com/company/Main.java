@@ -3,7 +3,12 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-
+        Kayak<Dog, Cat> myKayak = new Kayak<Dog, Cat>();
+        Dog d1 = new Dog();
+        Dog d2 = new Dog();
+        Cat c1 = new Cat();
+        myKayak.setFirst(d1);
+        myKayak.setSecond(c1);
     }
 
     public static double paycheck(Agent agent, double percent) {
@@ -19,6 +24,10 @@ public class Main {
 class Dog {
     String name;
     Dog father;
+}
+
+class Cat{
+
 }
 
 class Agent{

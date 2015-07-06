@@ -3,13 +3,13 @@ package com.company;
 /**
  * Created by guyazran on 7/2/15.
  */
-public class MyCollection2 implements Listable {
+public class MyCollection2g implements Listable {
 //TODO: finish methods in new way
     private Link anchor; //placeholder for the first link. ignore value;
     private Link last;
     private int counter;
 
-    public MyCollection2(){
+    public MyCollection2g(){
         anchor = new Link(0);
         last = anchor;
         counter = 0;
@@ -73,8 +73,8 @@ public class MyCollection2 implements Listable {
             return false;
         if (obj == this)
             return true;
-        if (obj instanceof MyCollection2) {
-            MyCollection2 other = (MyCollection2)obj;
+        if (obj instanceof MyCollection2g) {
+            MyCollection2g other = (MyCollection2g)obj;
             if (this.counter == other.counter) {
                 for (int i = 0; i < counter; i++) {
                     if (this.get(i) != other.get(i))
@@ -115,7 +115,7 @@ public class MyCollection2 implements Listable {
 
     @Override
     public int indexOf(int number) {
-        MyCollection2 placeHolder = this;
+        MyCollection2g placeHolder = this;
         for (int i = 0; i < counter; i++) {
             if (get(i) == number)
                 return i;
@@ -125,7 +125,7 @@ public class MyCollection2 implements Listable {
 
     @Override
     public int lastIndexOf(int number) {
-        MyCollection2 placeHolder = this;
+        MyCollection2g placeHolder = this;
         for (int i = counter; i > -1; i--) {
             if (get(i) == number)
                 return i;

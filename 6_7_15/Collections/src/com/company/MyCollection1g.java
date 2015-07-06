@@ -3,17 +3,17 @@ package com.company;
 /**
  * Created by guyazran on 7/2/15.
  */
-public class MyCollection1 implements Listable{
+public class MyCollection1g<T> implements GenericListable <T>{
 
-    private int[] arr;
+    private Object[] arr;
     private int counter;
 
-    public MyCollection1(int initialCapacity){
-        arr = new int[initialCapacity];
+    public MyCollection1g(int initialCapacity){
+        arr = new Object[initialCapacity];
         counter = 0;
     }
 
-    public void add(int number){
+    public void add(T number){
         makeRoomIfNecessary();
         arr[counter++] = number;
     }
@@ -21,7 +21,7 @@ public class MyCollection1 implements Listable{
     private void makeRoomIfNecessary() {
         if (counter == arr.length) {
             //no room for the new number.
-            int[] newArray = new int[arr.length * 2];
+            Object[] newArray = new Object [arr.length * 2];
             for (int i = 0; i < counter; i++) {
                 newArray[i] = arr[i];
             }
@@ -29,7 +29,7 @@ public class MyCollection1 implements Listable{
         }
     }
 
-    public boolean remove(int number){
+    public boolean remove(T number){
         int index = this.indexOf(number);
         if (index == -1)
             return false;
@@ -40,7 +40,7 @@ public class MyCollection1 implements Listable{
         return true;
     }
 
-    public void add(int number, int index){
+    public void add(T number, int index){
         makeRoomIfNecessary();
         if (index>=0 && index<counter) {
             for (int i = counter; i > index; i--) {
@@ -55,7 +55,7 @@ public class MyCollection1 implements Listable{
         counter = 0;
     }
 
-    public boolean contains(int number){
+    public boolean contains(T number){
         return indexOf(number) != -1;
     }
 
@@ -65,11 +65,11 @@ public class MyCollection1 implements Listable{
             return false;
         if (obj == this)
             return true;
-        if (obj instanceof MyCollection1) {
-            MyCollection1 other = (MyCollection1)obj;
+        if (obj instanceof MyCollection1g) {
+            MyCollection1g other = (MyCollection1g)obj;
             if (this.counter == other.counter) {
                 for (int i = 0; i < counter; i++) {
-                    if (arr[i] != other.arr[i])
+                    if (!arr[i].equals(other.arr[i]))
                         return false;
                 }
                 return true;
@@ -90,26 +90,26 @@ public class MyCollection1 implements Listable{
         return s;
     }
 
-    public int get(int index){
-        if (index>=0 && index<counter)
-            return arr[index];
-        return Integer.MIN_VALUE;
+    public T get(int index) {
+        if (index >= 0 && index < counter)
+            return (T) arr[index];
+        return null;
     }
 
-    public int indexOf(int number){
+    public int indexOf(T number){
         if (counter == 0)
             return -1;
         for (int i = 0; i < counter; i++) {
-            if (arr[i] == number) {
+            if (arr[i].equals(number)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public int lastIndexOf(int number){
+    public int lastIndexOf(T number){
         for (int i = counter - 1; i >= 0; i--) {
-            if (arr[i] == number) {
+            if (arr[i].equals(number)) {
                 return i;
             }
         }
@@ -117,7 +117,7 @@ public class MyCollection1 implements Listable{
     }
 
     //TODO: finish without loop in loop
-    public void removeAll(int number){
+    public void removeAll(T number){
         //while (remove(number)); //not optimal. checks the entire array for every time number exists in it
         int counter = 0;
         for (int i = 0; i < this.counter; i++){
@@ -132,13 +132,13 @@ public class MyCollection1 implements Listable{
         //this solution is more optimal
     }
 
-    public void set(int number, int index){
+    public void set(T number, int index){
         if (index>=0 && index<counter)
             arr[index] = number;
     }
 
-    public int[] toArray(){
-        int[] arr = new int[counter];
+    public Object[] toArray(){
+        Object[] arr = new Object[counter];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = this.arr[i];
         }
