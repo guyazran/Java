@@ -72,6 +72,11 @@ public class Point {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return (7*xPos) ^ (11 * yPos) ^ (53 * yPos);
+    }
+
     public void drawOnCanvas(boolean[][] canvas){
         if (canvas == null)
             return;

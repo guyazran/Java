@@ -58,6 +58,11 @@ public final class Circle extends Shape { //no other class can inherit from a fi
     }
 
     @Override
+    public int hashCode() {
+        return (31 * radius) ^ (23 * radius) ^ (29* center.hashCode());
+    }
+
+    @Override
     public double area(){ //instances method: uses instance fields from the class
         return Math.PI * radius * radius;
     }
