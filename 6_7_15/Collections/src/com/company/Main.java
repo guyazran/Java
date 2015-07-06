@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
 
@@ -88,8 +89,34 @@ public class Main {
 //
 //        System.out.println(l);
 
-        char[] hello = {'h', 'e', 'l', 'l', 'o'};
-        MyString myString = new MyString(hello);
+//        char[] hello = {'h', 'e', 'l', 'l', 'o'};
+//        MyString myString = new MyString(hello);
+
+        try{ //in "try" write the code that maybe can crash (method that throws Exception)
+            int result =  quotient(6, 0);
+            System.out.println(result*19);
+        }catch (Exception ex){ //write in "catch" what you want to happen if a method from "try" throws Exception
+            System.out.println(ex);
+        }
+        System.out.println("end"); //try and catch allows the program to reach an exception without crashing
+
+
+        int[] numbers = new int[5];
+        try {
+            numbers[12] = 100;
+        }catch(Exception ex){
+            System.out.println("bassa: " + ex);
+        }
+        System.out.println("end...");
+    }
+
+    public static int quotient(int x, int y) throws Exception{
+        if (y==0)
+            throw new MyException("division by zero!!!!");
+        int counter = 0;
+        for(int i = y; i<=x; i+=y)
+            counter++;
+        return counter;
     }
 
     public static double paycheck(Agent agent, double percent) {
