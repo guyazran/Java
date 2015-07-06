@@ -8,8 +8,8 @@ public class MyCollection1 implements Listable{
     private int[] arr;
     private int counter;
 
-    public MyCollection1(){
-        arr = new int[10];
+    public MyCollection1(int initialCapacity){
+        arr = new int[initialCapacity];
         counter = 0;
     }
 
@@ -31,9 +31,9 @@ public class MyCollection1 implements Listable{
 
     public boolean remove(int number){
         int index = this.indexOf(number);
-        if (index < 0)
+        if (index == -1)
             return false;
-        for (int i = index; i < counter; i++) {
+        for (int i = index; i < counter - 1; i++) {
             arr[i] = arr[i+1];
         }
         counter--;
@@ -56,9 +56,7 @@ public class MyCollection1 implements Listable{
     }
 
     public boolean contains(int number){
-        if (indexOf(number) == -1)
-            return false;
-        return true;
+        return indexOf(number) != -1;
     }
 
     @Override
@@ -110,9 +108,7 @@ public class MyCollection1 implements Listable{
     }
 
     public int lastIndexOf(int number){
-        if (counter == 0)
-            return -1;
-        for (int i = counter - 1; i > -1; i--) {
+        for (int i = counter - 1; i >= 0; i--) {
             if (arr[i] == number) {
                 return i;
             }
@@ -121,8 +117,18 @@ public class MyCollection1 implements Listable{
     }
 
     public void removeAll(int number){
-        while (contains(number))
-            remove(number);
+        //while (remove(number)); //not optimal. checks the entire array for every time number exists in it
+        int counter = 0;
+        for (int i = 0; i < this.counter; i++){
+            if (counter != 0)
+                    arr[i] = arr[i + counter];
+            while (arr[i] == number){
+                arr[i] = arr[i + counter];
+                counter++;
+            }
+        }
+        this.counter -= counter;
+        //this solution is more optimal
     }
 
     public void set(int number, int index){

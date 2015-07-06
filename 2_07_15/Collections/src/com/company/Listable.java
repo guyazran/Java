@@ -37,6 +37,11 @@ public interface Listable {
      */
     public boolean contains(int number);
 
+    /**
+     * returns the value in a given position
+     * @param index zero based position
+     * @return Integer.MIN_VALUE if index is illegal, otherwise the value at index
+     */
     public int get(int index);
 
     /**
@@ -50,6 +55,13 @@ public interface Listable {
 
     public void removeAll(int number);
 
+
+    /**
+     * sets the number i a given position to a new number, overriding the existing number.
+     *
+     * @param number the new number
+     * @param index the position zero based. must be of an existing number
+     */
     public void set(int number, int index);
 
     public int[] toArray();

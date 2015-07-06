@@ -24,14 +24,6 @@ public class Main {
 //        d2.father = d3;
 //
 //        System.out.println(d1.father.father.name);
-//
-//    }
-//    public static double paycheck(Agent agent, double percent){
-//        if (agent == null)
-//            return 0;
-//        double paycheck = agent.sales*percent;
-//        paycheck += paycheck(agent.left,percent/2) + paycheck(agent.Right, percent/2);
-//        return paycheck;
         MyCollection2 mc1 = new MyCollection2();
         mc1.add(123);
         mc1.add(14);
@@ -45,9 +37,9 @@ public class Main {
         mc1.add(-5536);
         mc1.add(878);
         mc1.add(11324);
-        mc1.set(13, 0);
 
-        MyCollection1 mc2 = new MyCollection1();
+
+        MyCollection1 mc2 = new MyCollection1(10);
         mc2.add(123);
         mc2.add(14);
         mc2.add(-7);
@@ -61,9 +53,18 @@ public class Main {
         mc2.add(878);
         mc2.add(11324);
 
-        System.out.println(mc1.indexOf(66));
+        System.out.println(mc1);
+    }
+
+    public static double paycheck(Agent agent, double percent) {
+        if (agent == null)
+            return 0;
+        double paycheck = agent.sales * percent;
+        paycheck += paycheck(agent.left, percent / 2) + paycheck(agent.Right, percent / 2);
+        return paycheck;
     }
 }
+
 
 class Dog {
     String name;

@@ -5,40 +5,51 @@ package com.company;
  */
 public class MyCollection2 implements Listable {
 
-    private Link anchor;
+    private Link anchor; //placeholder for the first link. ignore value;
+    private Link last;
     private int counter;
 
     public MyCollection2(){
         anchor = new Link(0);
+        last = anchor;
         counter = 0;
     }
 
     @Override
     public void add(int number) {
-        if (counter == 0){
-            anchor.value=number;
-        }else {
-            Link last = anchor;
-            while (last.next != null)
-                last = last.next;
-            last.next = new Link(number);
-        }
+//            Link last = anchor;
+//            while (last.next != null)
+//                last = last.next;
+//            last.next = new Link(number);
+//        counter++;
+        last.next = new Link(number);
+        last = last.next;
         counter++;
     }
 
     @Override
     public boolean remove(int number) {
-        int index = indexOf(number);
-        if (index==-1)
-            return false;
-        Link placeHolder = anchor;
-        for (int i = 0; i < counter; i++) {
-            if (i >= index && placeHolder.next!=null)
-                placeHolder.value = placeHolder.next.value;
-            placeHolder = placeHolder.next;
+//        int index = indexOf(number);
+//        if (index==-1)
+//            return false;
+//        Link placeHolder = anchor;
+//        for (int i = 1; i < counter; i++) {
+//            if (i >= index && placeHolder.next!=null)
+//                placeHolder.value = placeHolder.next.value;
+//            placeHolder = placeHolder.next;
+//        }
+//        counter--;
+//        return true;
+        Link theOneBefore = anchor;
+        while (theOneBefore.next != null){
+            if (theOneBefore.next.value == number){
+                theOneBefore.next = theOneBefore.next.next;
+                counter--;
+                return true;
+            }
+            theOneBefore = theOneBefore.next;
         }
-        counter--;
-        return true;
+        return false;
     }
 
     @Override
@@ -93,16 +104,27 @@ public class MyCollection2 implements Listable {
 
     @Override
     public String toString() {
-        String s = "{";
-        Link placeHolder = anchor;
-        for (int i = 0; i < counter-1; i++) {
-            s += placeHolder.value + ",";
-            placeHolder = placeHolder.next;
-        }
-        if (counter != 0)
-            s += placeHolder.value;
-        s += "}";
-        return s;
+//        String s = "{";
+//        Link placeHolder = anchor;
+//        for (int i = 1; i < counter-1; i++) {
+//            s += placeHolder.value + ",";
+//            placeHolder = placeHolder.next;
+//        }
+//        if (counter != 0)
+//            s += placeHolder.value;
+//        s += "}";
+//        return s;
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        Link current = anchor;
+            while (current.next != null) {
+                current = current.next;
+                sb.append(current.value);
+                if (current.next != null)
+                    sb.append(",");
+            }
+        sb.append("}");
+        return sb.toString();
     }
 
     @Override
