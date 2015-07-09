@@ -48,10 +48,9 @@ public class LoginForm extends JFrame implements LoginThread.LoginListener, Logo
                 String password = txtPassword.getText();
                 btnLogin.setEnabled(false);
                 btnLogin.setText(STR_PLEASE_WAIT);
+                txtUsername.setEnabled(false);
+                txtPassword.setEnabled(false);
                 if (!isLoggedIn) {
-                    txtUsername.setEnabled(false);
-                    txtPassword.setEnabled(false);
-
                     LoginThread loginThread = new LoginThread(username, password, LoginForm.this);
                     loginThread.start();
 
