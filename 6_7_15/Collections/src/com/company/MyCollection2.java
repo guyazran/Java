@@ -4,8 +4,8 @@ package com.company;
  * Created by guyazran on 7/2/15.
  */
 public class MyCollection2 implements Listable {
-//TODO: finish methods in new way
-    private Link anchor; //placeholder for the first link. ignore value;
+
+    private Link anchor; //placeholder for the first link. ignore member;
     private Link last;
     private int counter;
 
@@ -38,19 +38,14 @@ public class MyCollection2 implements Listable {
 
     @Override
     public void add(int number, int index) {
-        if (index>=0 && index<counter) {
-            int numHolder = 0;
-            Link placeHolder = anchor;
-            for (int i = 0; i < counter; i++) {
-                if (i>=index) {
-                    numHolder = placeHolder.value;
-                    placeHolder.value = number;
-                    number = numHolder;
-                }
-                if (placeHolder.next == null)
-                    placeHolder.next = new Link(number);
-                placeHolder = placeHolder.next;
+        if (index>=0 && index<=counter) {
+            Link theOneBefore = anchor;
+            for (int i = 0; i < index; i++) {
+                theOneBefore = theOneBefore.next;
             }
+            Link newLink = new Link(number);
+            newLink.next = theOneBefore.next;
+            theOneBefore.next = newLink;
             counter++;
         }
     }
@@ -135,8 +130,15 @@ public class MyCollection2 implements Listable {
 
     @Override
     public void removeAll(int number) {
-        while (contains(number))
-            remove(number);
+        Link placeHolder = anchor;
+        while (placeHolder.next != null){
+            if (placeHolder.next.value == number)
+                if (placeHolder.next.next != null) {
+                    placeHolder.next = placeHolder.next.next;
+                }else{
+                    placeHolder.next = null;
+                }
+        }
     }
 
     @Override

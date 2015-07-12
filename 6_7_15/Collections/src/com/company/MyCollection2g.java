@@ -3,30 +3,30 @@ package com.company;
 /**
  * Created by guyazran on 7/2/15.
  */
-public class MyCollection2g implements Listable {
-//TODO: finish methods in new way
-    private Link anchor; //placeholder for the first link. ignore value;
+public class MyCollection2g<T> implements GenericListable <T> {
+
+    private Link anchor; //placeholder for the first link. ignore member;
     private Link last;
     private int counter;
 
-    public MyCollection2g(){
-        anchor = new Link(0);
+    public MyCollection2g(T firstItem){
+        anchor = new Link(null);
         last = anchor;
         counter = 0;
     }
 
     @Override
-    public void add(int number) {
+    public void add(T number) {
         last.next = new Link(number);
         last = last.next;
         counter++;
     }
 
     @Override
-    public boolean remove(int number) {
+    public boolean remove(T number) {
         Link theOneBefore = anchor;
         while (theOneBefore.next != null){
-            if (theOneBefore.next.value == number){
+            if (theOneBefore.next.member == number){
                 theOneBefore.next = theOneBefore.next.next;
                 counter--;
                 return true;
@@ -37,20 +37,15 @@ public class MyCollection2g implements Listable {
     }
 
     @Override
-    public void add(int number, int index) {
-        if (index>=0 && index<counter) {
-            int numHolder = 0;
-            Link placeHolder = anchor;
-            for (int i = 0; i < counter; i++) {
-                if (i>=index) {
-                    numHolder = placeHolder.value;
-                    placeHolder.value = number;
-                    number = numHolder;
-                }
-                if (placeHolder.next == null)
-                    placeHolder.next = new Link(number);
-                placeHolder = placeHolder.next;
+    public void add(T number, int index) {
+        if (index>=0 && index<=counter) {
+            Link theOneBefore = anchor;
+            for (int i = 0; i < index; i++) {
+                theOneBefore = theOneBefore.next;
             }
+            Link newLink = new Link(number);
+            newLink.next = theOneBefore.next;
+            theOneBefore.next = newLink;
             counter++;
         }
     }
@@ -61,7 +56,7 @@ public class MyCollection2g implements Listable {
     }
 
     @Override
-    public boolean contains(int number) {
+    public boolean contains(T number) {
         if (indexOf(number) == -1)
             return false;
         return true;
@@ -93,7 +88,7 @@ public class MyCollection2g implements Listable {
         Link current = anchor;
             while (current.next != null) {
                 current = current.next;
-                sb.append(current.value);
+                sb.append(current.member);
                 if (current.next != null)
                     sb.append(",");
             }
@@ -102,19 +97,19 @@ public class MyCollection2g implements Listable {
     }
 
     @Override
-    public int get(int index) {
+    public T get(int index) {
         if (index>=0 && index<counter){
             Link placeHolder = anchor;
             for (int i = 0; i < index; i++) {
                 placeHolder = placeHolder.next;
             }
-            return placeHolder.value;
+            return (T)placeHolder.member;
         }
-        return Integer.MIN_VALUE;
+        return null;
     }
 
     @Override
-    public int indexOf(int number) {
+    public int indexOf(T number) {
         MyCollection2g placeHolder = this;
         for (int i = 0; i < counter; i++) {
             if (get(i) == number)
@@ -124,7 +119,7 @@ public class MyCollection2g implements Listable {
     }
 
     @Override
-    public int lastIndexOf(int number) {
+    public int lastIndexOf(T number) {
         MyCollection2g placeHolder = this;
         for (int i = counter; i > -1; i--) {
             if (get(i) == number)
@@ -134,25 +129,32 @@ public class MyCollection2g implements Listable {
     }
 
     @Override
-    public void removeAll(int number) {
-        while (contains(number))
-            remove(number);
+    public void removeAll(T number) {
+        Link placeHolder = anchor;
+        while (placeHolder.next != null){
+            if (placeHolder.next.member == number)
+                if (placeHolder.next.next != null) {
+                    placeHolder.next = placeHolder.next.next;
+                }else{
+                    placeHolder.next = null;
+                }
+        }
     }
 
     @Override
-    public void set(int number, int index) {
+    public void set(T number, int index) {
         Link placeHolder = anchor;
         if (index>=0 && index<counter){
             for (int i = 0; i < index; i++) {
                 placeHolder = placeHolder.next;
             }
-            placeHolder.value = number;
+            placeHolder.member = number;
         }
     }
 
     @Override
-    public int[] toArray() {
-        int[] arr = new int[counter];
+    public Object[] toArray() {
+        Object[] arr = new Object[counter];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = this.get(i);
         }
@@ -164,12 +166,12 @@ public class MyCollection2g implements Listable {
         return counter;
     }
 
-    static class Link{
-        int value;
+    static class Link<T>{
+        T member;
         Link next;
 
-        public Link(int value){
-            this.value = value;
+        public Link(T member){
+            this.member = member;
         }
     }
 }

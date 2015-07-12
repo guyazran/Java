@@ -4,8 +4,6 @@ package com.company;
  * Created by guyazran on 7/6/15.
  */
 public interface GenericListable <T>{
-    //TODO: change variable names
-    //TODO: rewrite MyCollection 2 to implement this interface
     /**
      * adds a number to the list at the end of the list
      * @param number the number to be added
@@ -39,9 +37,9 @@ public interface GenericListable <T>{
     public boolean contains(T number);
 
     /**
-     * returns the value in a given position
+     * returns the member in a given position
      * @param index zero based position
-     * @return Integer.MIN_VALUE if index is illegal, otherwise the value at index
+     * @return Integer.MIN_VALUE if index is illegal, otherwise the member at index
      */
     public T get(int index);
 

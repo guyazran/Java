@@ -42,7 +42,7 @@ public class MyCollection1 implements Listable{
 
     public void add(int number, int index){
         makeRoomIfNecessary();
-        if (index>=0 && index<counter) {
+        if (index>=0 && index<=counter) {
             for (int i = counter; i > index; i--) {
                 arr[i] = arr[i - 1];
             }
@@ -80,14 +80,15 @@ public class MyCollection1 implements Listable{
 
     @Override
     public String toString() {
-        String s = "{";
-        for (int i = 0; i < counter - 1; i++) {
-            s += arr[i] + ",";
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        for (int i = 0; i < counter-1; i++) {
+            sb.append(arr[i] + ",");
         }
-        if (counter != 0)
-            s += arr[counter - 1];
-        s += "}";
-        return s;
+        if (counter!= 0)
+            sb.append(arr[counter -1]);
+        sb.append("}");
+        return sb.toString();
     }
 
     public int get(int index){
@@ -116,16 +117,15 @@ public class MyCollection1 implements Listable{
         return -1;
     }
 
-    //TODO: finish without loop in loop
     public void removeAll(int number){
         //while (remove(number)); //not optimal. checks the entire array for every time number exists in it
         int counter = 0;
-        for (int i = 0; i < this.counter; i++){
+        for (int i = 0;  i+counter < this.counter; i++){
             if (counter != 0)
                     arr[i] = arr[i + counter];
-            while (arr[i] == number){
-                arr[i] = arr[i + counter];
+            if (arr[i + counter] == number) {
                 counter++;
+                i--;
             }
         }
         this.counter -= counter;

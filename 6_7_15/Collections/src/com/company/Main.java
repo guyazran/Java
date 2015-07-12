@@ -92,31 +92,71 @@ public class Main {
 //        char[] hello = {'h', 'e', 'l', 'l', 'o'};
 //        MyString myString = new MyString(hello);
 
-        try{ //in "try" write the code that maybe can crash (method that throws Exception)
-            int result =  quotient(6, 0);
-            System.out.println(result*19);
-        }catch (Exception ex){ //write in "catch" what you want to happen if a method from "try" throws Exception
-            System.out.println(ex);
-        }
-        System.out.println("end"); //try and catch allows the program to reach an exception without crashing
+//        try{ //in "try" write the code that maybe can crash (method that throws Exception)
+//            int result =  quotient(6, 0);
+//            System.out.println(result*19);
+//        }catch (Exception ex){ //write in "catch" what you want to happen if a method from "try" throws Exception
+//            System.out.println(ex);
+//        }
+//        System.out.println("end"); //try and catch allows the program to reach an exception without crashing
+//
+//
+//        int[] numbers = new int[5];
+//        try {
+//            numbers[12] = 100;
+//        }catch(Exception ex){
+//            System.out.println("bassa: " + ex);
+//        }
+//        System.out.println("end...");
+//    }
+//
+//    public static int quotient(int x, int y) throws Exception{
+//        if (y==0)
+//            throw new MyException("division by zero!!!!");
+//        int counter = 0;
+//        for(int i = y; i<=x; i+=y)
+//            counter++;
+//        return counter;
+
+//        MyCollection1 mc1 = new MyCollection1(10);
+//        mc1.add(3);
+//        mc1.add(1);
+//        mc1.add(2);
+//        mc1.add(3);
+//        mc1.add(4);
+//        mc1.add(3);
+//        mc1.add(6);
+//        mc1.add(7);
+//        mc1.add(3);
+//        mc1.add(5);
+//
+//        mc1.removeAll(3);
+//        System.out.println(mc1);
 
 
-        int[] numbers = new int[5];
-        try {
-            numbers[12] = 100;
-        }catch(Exception ex){
-            System.out.println("bassa: " + ex);
-        }
-        System.out.println("end...");
+        char[] chars1 = {'h','e','l','l','o',' ','t','o',' ','e','v','e','r','y','o','n','e'};
+        char[] chars2 = {'e'};
+
+        MyString myString1 = new MyString(chars1);
+        MyString myString2 = new MyString(chars2);
+
+        MyString[] myArray = myString1.split(myString2);
+        System.out.println(myString1.indexOf(myString2));
+
+        System.out.println(myString1.toString());
+        printMyStringArray(myString1.split(myString2));
+        printMyStringArray(myString1.split('e'));
     }
 
-    public static int quotient(int x, int y) throws Exception{
-        if (y==0)
-            throw new MyException("division by zero!!!!");
-        int counter = 0;
-        for(int i = y; i<=x; i+=y)
-            counter++;
-        return counter;
+    public static void printMyStringArray(MyString[] arr){
+        System.out.print("{");
+        for (int i = 0; i < arr.length - 1; i++) {
+            System.out.print("\"");
+            System.out.print(arr[i] + "\"" + ", ");
+        }
+        System.out.print("\"");
+        System.out.print(arr[arr.length - 1] + "\"" + "}");
+        System.out.println();
     }
 
     public static double paycheck(Agent agent, double percent) {

@@ -38,9 +38,9 @@ public interface Listable {
     public boolean contains(int number);
 
     /**
-     * returns the value in a given position
+     * returns the member in a given position
      * @param index zero based position
-     * @return Integer.MIN_VALUE if index is illegal, otherwise the value at index
+     * @return Integer.MIN_VALUE if index is illegal, otherwise the member at index
      */
     public int get(int index);
 
