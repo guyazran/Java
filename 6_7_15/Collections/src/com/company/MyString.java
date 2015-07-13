@@ -20,8 +20,30 @@ public class MyString {
 
     //chars = "hello world today", parameter: ' ', return: {"hello", "world", "today"}
     public MyString[] split(char delimiter) {
-        char[] delimiterInArray = {delimiter};
-        return split(new MyString(delimiterInArray));
+//        char[] delimiterInArray = {delimiter};
+//        return split(new MyString(delimiterInArray));
+
+        int delimiterCounter = 0;
+        int[] wordsLength = new int[this.chars.length+1];
+        for (int i = 0; i < this.chars.length; i++) {
+            if (this.chars[i] == delimiter) {
+                delimiterCounter++;
+            }else{
+                wordsLength[delimiterCounter]++;
+            }
+        }
+        MyString[] myStrings = new MyString[delimiterCounter + 1];
+        int position = 0;
+        for (int i = 0; i < myStrings.length; i++) {
+            char[] wordChars = new char[wordsLength[i]];
+            for (int j = 0; j < wordsLength[i]; j++) {
+                wordChars[j] = this.chars[position++];
+            }
+            myStrings[i] = new MyString(wordChars);
+            position++;
+        }
+
+        return myStrings;
     }
 
     public MyString[] split(MyString delimiter) {
@@ -104,20 +126,32 @@ public class MyString {
     }
 
     private int indexOf(MyString another, int from){
+        if (another == null || another.chars.length == 0 || another.chars.length > this.chars.length)
+            return -1;
         if (from > chars.length)
             return -1;
-        for (int i = from; i < chars.length; i++) {
-            if (another.chars[0] == this.chars[i]){
-                if (another.chars.length == 1)
-                    return i;
-                int counter = 1;
-                while (another.chars[counter] == this.chars[i+counter]){
-                    counter++;
-                    if (counter == another.chars.length)
-                        return i;
-                    if (i+counter >= chars.length)
-                        return -1;
+        final char firstChar = another.chars[0];
+        final int lastPositionToCheck = this.chars.length - another.chars.length;
+        for (int i = from; i <= lastPositionToCheck; i++) {
+            if (firstChar == this.chars[i]){
+//                if (another.chars.length == 1)
+//                    return i;
+//                int counter = 1;
+//                while (another.chars[counter] == this.chars[i+counter]){
+//                    counter++;
+//                    if (counter == another.chars.length)
+//                        return i;
+//                    if (i+counter >= chars.length)
+//                        return -1;
+                boolean noMatch = false;
+                for (int j = i+1; j < another.chars.length; j++) {
+                   if (this.chars[j] != another.chars[j-i]){
+                       noMatch = true;
+                       break;
+                   }
                 }
+                if (!noMatch)
+                    return i;
             }
         }
         return -1;
@@ -125,9 +159,6 @@ public class MyString {
 
     @Override
     public String toString() {
-        for (int i = 0; i < chars.length; i++) {
-            System.out.print(chars[i]);
-        }
-        return "";
+        return new String(chars);
     }
 }

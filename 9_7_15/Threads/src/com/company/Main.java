@@ -126,7 +126,7 @@ public class Main {
 //        System.out.println("the final count is: " + Counter.count);
 //    }
 
-        int[] numbers = {1,2,3,4,8,6,7,5,19,36,54,85,-32,54,18,6,4,5};
+        final int[] numbers = {1,2,3,4,8,6,7,5,19,36,54,85,-32,54,18,6,4,5};
 
 
 
@@ -139,13 +139,49 @@ public class Main {
         }
 
         System.out.println(t.getMaxNum());
+
+
+
+
+        final int[] maxNumbers = new int[2];
+        final Counter counter = new Counter();
+        FindMaxThread2.FindMaxThreadListener listener = new FindMaxThread2.FindMaxThreadListener() {
+            @Override
+            public void maxFound(int max, int id) {
+                maxNumbers[id] = max;
+                boolean isLast = false;
+                synchronized (counter){
+                    counter.counter++;
+                    if (counter.counter == 2)
+                        isLast = true;
+                }
+                if (isLast){
+                    FindMaxThread2 lastFindMaxThread = new FindMaxThread2(maxNumbers, 0, maxNumbers.length, new FindMaxThread2.FindMaxThreadListener() {
+                        @Override
+                        public void maxFound(int max, int id) {
+                            System.out.println("max is: " + max);
+                        }
+                    }, 0);
+                    lastFindMaxThread.start();
+                }
+            }
+        };
+
+
+        FindMaxThread2 findMaxThread = new FindMaxThread2(numbers, 0, numbers.length/2, listener, 0);
+        findMaxThread.start();
+
+        FindMaxThread2 findMaxThread2 = new FindMaxThread2(numbers, numbers.length/2, numbers.length, listener, 1);
+        findMaxThread2.start();
+
+
+        }
     }
 
 
-}
-
 class Counter {
     public static int count = 0;
+    int counter = 0;
 }
 
 class FindMaxThread extends Thread {
@@ -206,3 +242,42 @@ class FindMaxThread extends Thread {
         }
     }
 }
+
+//teacher solution
+class FindMaxThread2 extends Thread {
+
+    private int[] numbers;
+    private int from, to;
+    private FindMaxThreadListener listener;
+    private int id;
+
+    public FindMaxThread2(int[] numbers, int from, int to, FindMaxThreadListener listener, int id) {
+        this.numbers = numbers;
+        this.from = from;
+        this.to = to;
+        this.listener = listener;
+        this.id = id;
+    }
+
+    @Override
+    public void run() {
+        if (from<0 || from>to || to>numbers.length || numbers == null || numbers.length == 0)
+            return;
+        int max = numbers[from];
+        for (int i = from+1; i < to; i++) {
+            if (numbers[i] > max)
+                max = numbers[i];
+        }
+        if (listener != null)
+            listener.maxFound(max, id);
+    }
+
+    static  interface FindMaxThreadListener{
+        void maxFound(int max, int id);
+    }
+}
+
+
+
+
+

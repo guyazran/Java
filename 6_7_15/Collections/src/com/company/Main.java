@@ -135,7 +135,7 @@ public class Main {
 
 
         char[] chars1 = {'h','e','l','l','o',' ','t','o',' ','e','v','e','r','y','o','n','e'};
-        char[] chars2 = {'e'};
+        char[] chars2 = {'t','o'};
 
         MyString myString1 = new MyString(chars1);
         MyString myString2 = new MyString(chars2);
@@ -145,7 +145,7 @@ public class Main {
 
         System.out.println(myString1.toString());
         printMyStringArray(myString1.split(myString2));
-        printMyStringArray(myString1.split('e'));
+        printMyStringArray(myString1.split(' '));
     }
 
     public static void printMyStringArray(MyString[] arr){
