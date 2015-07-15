@@ -126,62 +126,127 @@ public class Main {
 //        System.out.println("the final count is: " + Counter.count);
 //    }
 
-        final int[] numbers = {1,2,3,4,8,6,7,5,19,36,54,85,-32,54,18,6,4,5};
+        final int[] numbers = {1,42,3,4,8,6,7,5,19,36,5,85,-32,54,18,6,4,42};
 
-
-
-        FindMaxThread t = new FindMaxThread(numbers, 0, 19);
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(t.getMaxNum());
-
-
-
-
-        final int[] maxNumbers = new int[2];
-        final Counter counter = new Counter();
-        FindMaxThread2.FindMaxThreadListener listener = new FindMaxThread2.FindMaxThreadListener() {
+//        FindMaxThread t = new FindMaxThread(numbers, 0, 19);
+//        t.start();
+//        try {
+//            t.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println(t.getMaxNum());
+//
+//
+//
+//
+//        final int[] maxNumbers = new int[2];
+//        final Counter counter = new Counter();
+//        FindMaxThread2.FindMaxThreadListener listener = new FindMaxThread2.FindMaxThreadListener() {
+//            @Override
+//            public void maxFound(int max, int id) {
+//                maxNumbers[id] = max;
+//                boolean isLast = false;
+//                synchronized (counter){
+//                    counter.counter++;
+//                    if (counter.counter == 2)
+//                        isLast = true;
+//                }
+//                if (isLast){
+//                    FindMaxThread2 lastFindMaxThread = new FindMaxThread2(maxNumbers, 0, maxNumbers.length, new FindMaxThread2.FindMaxThreadListener() {
+//                        @Override
+//                        public void maxFound(int max, int id) {
+//                            System.out.println("max is: " + max);
+//                        }
+//                    }, 0);
+//                    lastFindMaxThread.start();
+//                }
+//            }
+//        };
+//
+//
+//        FindMaxThread2 findMaxThread = new FindMaxThread2(numbers, 0, numbers.length/2, listener, 0);
+//        findMaxThread.start();
+//
+//        FindMaxThread2 findMaxThread2 = new FindMaxThread2(numbers, numbers.length/2, numbers.length, listener, 1);
+//        findMaxThread2.start();
+        final int numToFind = 36;
+        final FindIndexThread.IsIndexFound isIndexFound = new FindIndexThread.IsIndexFound();
+        FindIndexThread.FindIndexListener listener = new FindIndexThread.FindIndexListener() {
             @Override
-            public void maxFound(int max, int id) {
-                maxNumbers[id] = max;
-                boolean isLast = false;
-                synchronized (counter){
-                    counter.counter++;
-                    if (counter.counter == 2)
-                        isLast = true;
-                }
-                if (isLast){
-                    FindMaxThread2 lastFindMaxThread = new FindMaxThread2(maxNumbers, 0, maxNumbers.length, new FindMaxThread2.FindMaxThreadListener() {
-                        @Override
-                        public void maxFound(int max, int id) {
-                            System.out.println("max is: " + max);
-                        }
-                    }, 0);
-                    lastFindMaxThread.start();
-                }
+            public void indexFound(int index) {
+                System.out.println(index);
+            }
+
+            @Override
+            public void indexNotFound() {
+                if (isIndexFound.notFoundCounter == FindIndexThread.numberOfThreads)
+                    System.out.println("the number is not found");
             }
         };
 
+        FindIndexThread indexThread1 = new FindIndexThread(numbers, numToFind, 0, numbers.length/3, listener, isIndexFound);
+        indexThread1.start();
+        FindIndexThread indexThread2 = new FindIndexThread(numbers, numToFind, numbers.length/3, numbers.length/3*2, listener, isIndexFound);
+        indexThread2.start();
+        FindIndexThread indexThread3 = new FindIndexThread(numbers, numToFind, numbers.length/3*2, numbers.length, listener, isIndexFound);
+        indexThread3.start();
 
-        FindMaxThread2 findMaxThread = new FindMaxThread2(numbers, 0, numbers.length/2, listener, 0);
-        findMaxThread.start();
-
-        FindMaxThread2 findMaxThread2 = new FindMaxThread2(numbers, numbers.length/2, numbers.length, listener, 1);
-        findMaxThread2.start();
-
-
-        }
     }
+}
 
 
 class Counter {
     public static int count = 0;
     int counter = 0;
+}
+
+class FindIndexThread extends Thread{
+
+    private int[] numbers;
+    private int index, numToFind, from, to;
+    private FindIndexListener listener;
+    IsIndexFound isIndexFound = new IsIndexFound();
+    static int numberOfThreads = 0;
+
+    public FindIndexThread(int[] numbers, int numToFind, int from, int to, FindIndexListener listener, IsIndexFound isIndexFound) {
+        this.numbers = numbers;
+        this.numToFind = numToFind;
+        this.from = from;
+        this.to = to;
+        this.listener = listener;
+        this. isIndexFound = isIndexFound;
+        numberOfThreads++;
+    }
+
+    @Override
+    public void run() {
+        if (from<0 || from>to || to>numbers.length || numbers == null || numbers.length == 0)
+            return;
+        for (int i = from; i < to; i++) {
+            if (isIndexFound.isFound)
+                return;
+            if (numbers[i] == numToFind) {
+                index = i;
+                isIndexFound.isFound = true;
+                listener.indexFound(index);
+                return;
+            }
+        }
+        isIndexFound.notFoundCounter++;
+        listener.indexNotFound();
+    }
+
+    static interface FindIndexListener{
+        void indexFound(int index);
+        void indexNotFound();
+    }
+
+    static class IsIndexFound{
+        boolean isFound = false;
+        int notFoundCounter = 0;
+    }
 }
 
 class FindMaxThread extends Thread {
