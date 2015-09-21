@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="MyFirstWebsite:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/MyFirstWebsite_war</output-path>
+    <root id="archive" name="MyFirstWebsite_war.war">
+      <element id="artifact" artifact-name="MyFirstWebsite:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="org.json-20120521" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,214 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fnil\fcharset0 Consolas;
+\f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 Menlo-Bold;}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue26;\red234\green234\blue234;\red239\green239\blue239;
+\red0\green0\blue128;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 building and uploading a server:\
+\
+console.developer.com\
+type: compute engine\
+\
+menu: compute => compute engine => VM instances: this will show a graph of usage. important to check every day\
+\
+dropdown on the top left: create new project\
+after creating: create a new instance of a VM\
+\
+VM settings:\
+zone: europe-west (for israel)\
+machine type: f1-micro is a low end that is good enough\
+			g1-small is a slight bump up.\
+			high configurations\
+\
+boot disk: Debian is recommended for linux server\
+disk type: SSD is only necessary if you load a lot from the hard disk. good programming will use mostly RAM\
+\
+allow http and https traffic.\
+\
+API access is not a must.\
+\
+manage disk for advanced computer configurations\
+\
+click SSH to open server terminal\
+\
+commands:\
+\
+sudo apt-get update       \
+(this will tell the server to look for updates)\
+\
+sudo apt-get upgrade     \
+(this will tell the server to upgrade using the updates found previously)\
+\
+y                                      \
+(confirm that you want to install the updates)\
+\
+sudo apt-get install default-jre \
+(installs the latest stable version of the java runtime environment)\
+\
+sudo apt-get remove default-jre\
+(the previous command installed java 1.6 that is too old. this command will remove the installation)\
+\
+\pard\pardeftab720\sl373
+
+\f1\fs26 \cf0 \expnd0\expndtw0\kerning0
+sudo apt-get install openjdk-7-jre
+\f0\fs24 \kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 (installs java runtime environment 1.7)\
+\
+java -version\
+(check what java version is installed on the server)\
+\
+sudo apt-get install tomcat7\
+(installs apache tomcat 7 *requires java)\
+\
+sudo apt-get install tomcat7-admin\
+(installs tomcat web gui)\
+\
+sudo nano /etc/tomcat7/tomcat-users.xml\
+(opens nano, a linux text editor, and opens tomcat-users.xml)\
+\
+edit the xml to show the following:\
+<tomcat-users>\
+		<user username=\'93\'94 password=\'93\'94 roles=\'93manager-gui,admin-gui\'94/>\
+\
+type: ctrl+x to exit, type \'93y\'94 to save and then \'93enter\'94 to save in the same file directory.\
+\
+\
+sudo nano /etc/default/tomcat7\
+(opens tomcat configurations in nano)\
+\
+\
+change \'93#AUTHBIND=no\'94 (last line) to yes to allow using a low number port (80 for http)\
+*** remove the \'93#\'94 sign to remove the line from comment\
+\
+type: ctrl+x to exit, type \'93y\'94 to save and then \'93enter\'94 to save in the same file directory.\
+\
+\
+sudo touch /etc/authbind/byport/80\
+sudo chmod 500 /etc/authbind/byport/80\
+sudo chown tomcat7 /etc/authbind/byport/80\
+(binds tomcat to port 80 for http)\
+\
+sudo nano /usr/share/tomcat7/bin/startup.sh\
+(opens startup script in nano)\
+\
+change: exec \'93$PRGDIR\'94/\'93$EXECUTABLE\'94 start \'93$@\'93 (last line)\
+to: exec authbind  --deep \'93$PRGDIR\'94/\'93$EXECUTABLE\'94 start \'93$@\'93\
+(recommended to leave the line in comment for a backup)\
+\
+sudo nano /etc/tomcat7/server.xml\
+(opens an xml file)\
+\
+find this:\
+<Service name=\'93Catalina\'94>\
+	<connector port=\'938080\'94\
+	\'85\
+	redirectPort=\'938443\'94/>\
+change to port 80\
+change to redirect port 443\
+\
+sudo service tomcat7 restart\
+(will restart tomcat7)\
+\
+\
+back to console.developers.com\
+\
+click the external ip\
+add to the url \'93/manager\'94\
+insert username and password from tomcat-users.xml\
+this will open a web ui for the server.\
+\
+\
+open intellij and create a new java project while checking the \'93web application\'94 checkbox\
+open \'93web\'94 directory and delete \'93index.jsp\'94\
+create an index.html file in \'93web\'94 folder\
+\
+download tomcat 7 server to your computer: {\field{\*\fldinst{HYPERLINK "https://tomcat.apache.org/download-70.cgi"}}{\fldrslt https://tomcat.apache.org/download-70.cgi}}\
+download the core version (zip)\
+unzip the downloaded file and move the files to the folder you want it to be in\
+\
+in intellij run menu click edit configurations.\
+click the \'93+\'94 on the top left\
+choose defaults => tomcat server => local\
+configure application server and choose the newly downloaded tomcat server\
+in the error that says \'93no deployment\'94 click fix (or open deployment and add your app:war exploded)\
+change to build \'93your app:war exploded\'94 artefact\
+add permission to use tomcat from folder permission folders (ex. library)\
+\
+in terminal type:\
+sudo 
+\f2\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+chmod a+x /path/to/tomcat/bin/catalina.sh
+\f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+\
+file => project structure\
+under project language level choose the sdk installed on your server\
+\
+right click \'93src\'94 and create a new Servlet and call it MainServlet\
+\
+in the newly created xml add the following:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f3 \cf0 \cb4 <
+\f4\b \cf5 servlet-mapping
+\f3\b0 \cf0 >\cb1 \uc0\u8232     \cb4 <
+\f4\b \cf5 servlet-name
+\f3\b0 \cf0 >\cb1 MainServlet\cb4 </
+\f4\b \cf5 servlet-name
+\f3\b0 \cf0 >\cb1 \uc0\u8232     \cb4 <
+\f4\b \cf5 url-pattern
+\f3\b0 \cf0 >\cb1 /MainServlet\cb4 </
+\f4\b \cf5 url-pattern
+\f3\b0 \cf0 >\cb1 \uc0\u8232 \cb4 </
+\f4\b \cf5 servlet-mapping
+\f3\b0 \cf0 >\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0 \cf0 \cb1 \
+int the MainServlet java class \'93alt+enter\'94 on the servlet and click \'93Add java EE 6 jars\'94 then download\
+\
+add code to \'93doPost\'94 or \'93doGet\'94 methods.\
+run again:\
+redeploy - if java changed\
+update classes and resources - if web changed\
+restart server - if server changed (or when server issues occur)\
+\
+in the browser, add the servlet name to the url to see the servlet response (case sensitive)\
+\
+to save as war:\
+open project starker => artefacts\
+click \'93+\'94 => web application: archive => for your app:war exploded\
+click \'93apply\'94 and \'93ok\'94\
+open build => build artefact => your app:war (not the exploded file) => build/rebuild (rebuild if exists)\
+*** Make sure to compile in the same java version as the server\
+*** preferences => build => compiler => java compiler => bytecode version\
+******* If Any external libraries are used in your code, they must be added to the artifice\
+******* project structure => artifacts => click the artefact => click \'93fix\'94 at the bottom right of the window\
+\
+\
+adding TCP Server Socket to the http server:\
+create a new class that extends thread that in it\'92s run() method will use serverSocket.accept().\
+this allows the server to accept http and tcp requests simultaneously.\
+the MainServlet will start this thread in a method called init(), that is called upon the first request to the server.\
+the thread should be stopped on the Servlet method destroy();\
+\
+open port:\
+console.developers.com\
+networking => firewall rules\
+click new rule\
+name: rule name\
+source filter: allow from any source (0.0.0.0/0)\
+allowed protocols and ports: tcp:(port number)\
+\
+create snapshot (saves a copy of the disk. an instance can be made from this):\
+name: name\
+source disk: the instance you want to save\
+encryption: automatic\
+\
+\
+\
+\
+}
