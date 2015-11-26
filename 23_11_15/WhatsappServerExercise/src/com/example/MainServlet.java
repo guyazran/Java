@@ -18,9 +18,14 @@ public class MainServlet extends javax.servlet.http.HttpServlet {
     private HashMap<String, User> users;
     private HashSet<String> blacklist;
 
+    private TCPListenerThread tcpListenerThread;
+
     @Override
     public void init() throws ServletException {
         super.init();
+        tcpListenerThread  = new TCPListenerThread();
+        tcpListenerThread.start();
+
         users = new HashMap<>();
         blacklist = new HashSet<String>();
     }
@@ -127,5 +132,12 @@ public class MainServlet extends javax.servlet.http.HttpServlet {
             return null;
         User existingUser = users.get(userName);
         return existingUser.getMessages();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        tcpListenerThread.stopListening();
+        tcpListenerThread = null;
     }
 }
