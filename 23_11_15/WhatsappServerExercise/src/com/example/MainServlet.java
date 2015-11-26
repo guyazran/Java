@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by guyazran on 11/23/15.
@@ -15,14 +16,19 @@ import java.util.HashMap;
 public class MainServlet extends javax.servlet.http.HttpServlet {
 
     private HashMap<String, User> users;
+    private HashSet<String> blacklist;
 
     @Override
     public void init() throws ServletException {
         super.init();
         users = new HashMap<>();
+        blacklist = new HashSet<String>();
     }
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        if (blacklist.contains(request.getRemoteUser()))
+            return;
+
         InputStream inputStream = request.getInputStream();
         int actuallyRead;
         byte[] buffer = new byte[1024];

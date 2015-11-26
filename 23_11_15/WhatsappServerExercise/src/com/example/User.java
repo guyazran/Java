@@ -26,14 +26,14 @@ public class User {
 
     public JSONArray getMessages() throws JSONException {
         JSONArray jsonMessages = new JSONArray();
-        for(Message msg : messages){
+        Message msg;
+        while((msg = messages.poll()) != null){
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("sender", msg.getSender());
             jsonMessage.put("content", msg.getContent());
             jsonMessage.put("receiveTime", msg.getReceiveTime());
             jsonMessages.put(jsonMessage);
         }
-
         messages.clear(); //VERY RISKY!!!
         return jsonMessages;
     }
