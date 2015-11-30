@@ -12,6 +12,12 @@ public class TCPListenerThread extends Thread {
     private boolean go = true;
     ServerSocket socket;
 
+    MainServlet mainServlet;
+
+    public TCPListenerThread(MainServlet mainServlet){
+        this.mainServlet = mainServlet;
+    }
+
     @Override
     public void run() {
         socket = null;
@@ -21,7 +27,7 @@ public class TCPListenerThread extends Thread {
                 System.out.println("waiting for client");
                 Socket clientSocket = socket.accept();
                // clientSocket.setSoTimeout(15000); //will timeout after 15 seconds of being stuck on a read()/write() method
-                ClientThread clientThread = new ClientThread(clientSocket);
+                ClientThread clientThread = new ClientThread(mainServlet, clientSocket);
                 clientThread.start();
             }
         } catch (IOException e) {

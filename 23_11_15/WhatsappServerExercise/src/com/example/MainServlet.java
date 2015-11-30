@@ -23,7 +23,7 @@ public class MainServlet extends javax.servlet.http.HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        tcpListenerThread  = new TCPListenerThread();
+        tcpListenerThread  = new TCPListenerThread(this);
         tcpListenerThread.start();
 
         users = new HashMap<>();

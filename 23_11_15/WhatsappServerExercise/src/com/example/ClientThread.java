@@ -11,11 +11,23 @@ import java.nio.ByteBuffer;
  */
 public class ClientThread extends Thread {
 
+    public static final int FAILURE = 254;
+    public static final int SUCCESS = 255;
+
+
+    public static final int SIGN_UP = 10;
+    public static final int LOG_IN = 20;
+    public static final int SEND_MESSAGE = 30;
+    public static final int CHECK_FOR_MESSAGES = 40;
+
+    MainServlet mainServlet;
+
     Socket clientSocket;
     InputStream inputStream;
     OutputStream outputStream;
 
-    public ClientThread(Socket clientSocket){
+    public ClientThread(MainServlet mainServlet, Socket clientSocket){
+        this.mainServlet = mainServlet;
         this.clientSocket = clientSocket;
     }
 
@@ -26,30 +38,24 @@ public class ClientThread extends Thread {
         try {
             inputStream = clientSocket.getInputStream();
             outputStream = clientSocket.getOutputStream();
-            byte[] buffer = new byte[1024];
-            int actuallyRead;
-            System.out.println("client connected");
-            StringBuilder stringBuilder = new StringBuilder();
-            int x = 0;
-            long y = 0;
-            while ((actuallyRead = inputStream.read(buffer)) != -1){
-                //String s = new String(buffer, 0, actuallyRead);
-                //stringBuilder.append(s);
-                //x = ByteBuffer.wrap(buffer, 0, actuallyRead).getInt();
-                y = ByteBuffer.wrap(buffer, 0, actuallyRead).getLong();
-                System.out.println(y);
-
-                break;
+            int action = inputStream.read();
+            switch(action){
+                case SIGN_UP:
+                    signUp();
+                    break;
+                case LOG_IN:
+                    logIn();
+                    break;
+                case SEND_MESSAGE:
+                    sendMessage();
+                    break;
+                case CHECK_FOR_MESSAGES:
+                    checkForMessages();
+                    break;
+                case -1:
+                    //end of stream
+                    break;
             }
-
-            //ByteBuffer.wrap(buffer, 8, 4).putInt(13);
-            //outputStream.write(buffer, 0, actuallyRead + 4);
-
-            outputStream.write("some response from the server".getBytes());
-
-            //System.out.println(stringBuilder.toString());
-            //System.out.println(x);
-            System.out.println(y);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,5 +82,45 @@ public class ClientThread extends Thread {
                 }
             }
         }
+    }
+
+    private void signUp() throws IOException {
+        String username, password;
+
+        //get username
+        int usernameLength = inputStream.read();
+        if (usernameLength == -1)
+            return;
+        byte[] usernameBytes = new byte[usernameLength];
+        int actuallyRead = inputStream.read(usernameBytes);
+        if (actuallyRead != usernameLength)
+            return;
+        username = new String(usernameBytes);
+
+        //get password
+        int passwordLength = inputStream.read();
+        if (passwordLength == -1)
+            return;
+        byte[] passwordBytes = new byte[passwordLength];
+        actuallyRead = inputStream.read(passwordBytes);
+        if (actuallyRead != passwordLength)
+            return;
+        password = new String(passwordBytes);
+
+        boolean success = mainServlet.signUp(username, password);
+
+        outputStream.write(success ? SUCCESS : FAILURE);
+    }
+
+    private void logIn(){
+
+    }
+
+    private void sendMessage(){
+
+    }
+
+    private void checkForMessages(){
+
     }
 }
