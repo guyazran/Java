@@ -12,30 +12,19 @@ import java.util.Queue;
  */
 public class User {
     private String userName, password;
-    private Queue<Message> messages;
+    protected Queue<Message> messages;
 
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+
+        //the PriorityQueue type must implement th Comparable interface
         messages = new PriorityQueue<>();
     }
 
     public void addMessage(Message message){
-        messages.add(message);
-    }
-
-    public JSONArray getMessages() throws JSONException {
-        JSONArray jsonMessages = new JSONArray();
-        Message msg;
-        while((msg = messages.poll()) != null){
-            JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("sender", msg.getSender());
-            jsonMessage.put("content", msg.getContent());
-            jsonMessage.put("receiveTime", msg.getReceiveTime());
-            jsonMessages.put(jsonMessage);
-        }
-        messages.clear(); //VERY RISKY!!!
-        return jsonMessages;
+        if(messages.size() < 100)
+            messages.add(message);
     }
 
 
@@ -47,3 +36,4 @@ public class User {
         return password;
     }
 }
+

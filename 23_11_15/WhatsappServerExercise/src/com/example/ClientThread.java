@@ -11,25 +11,24 @@ import java.nio.ByteBuffer;
  */
 public class ClientThread extends Thread {
 
-    public static final int FAILURE = 254;
-    public static final int SUCCESS = 255;
-
-
-    public static final int SIGN_UP = 10;
-    public static final int LOG_IN = 20;
-    public static final int SEND_MESSAGE = 30;
-    public static final int CHECK_FOR_MESSAGES = 40;
-
-    MainServlet mainServlet;
+    public static final byte SIGN_UP = 10;
+    public static final byte LOGIN = 20;
+    public static final byte SEND_MESSAGE = 30;
+    public static final byte CHECK_FOR_MESSAGES = 40;
+    public static final byte SUCCESS = 127;
+    public static final byte FAILURE = 126;
 
     Socket clientSocket;
     InputStream inputStream;
     OutputStream outputStream;
+    MainServlet mainServlet;
+    private String userName, password;
 
     public ClientThread(MainServlet mainServlet, Socket clientSocket){
-        this.mainServlet = mainServlet;
         this.clientSocket = clientSocket;
+        this.mainServlet = mainServlet;
     }
+
 
     @Override
     public void run() {
@@ -39,12 +38,12 @@ public class ClientThread extends Thread {
             inputStream = clientSocket.getInputStream();
             outputStream = clientSocket.getOutputStream();
             int action = inputStream.read();
-            switch(action){
+            switch (action){
                 case SIGN_UP:
                     signUp();
                     break;
-                case LOG_IN:
-                    logIn();
+                case LOGIN:
+                    login();
                     break;
                 case SEND_MESSAGE:
                     sendMessage();
@@ -56,25 +55,24 @@ public class ClientThread extends Thread {
                     //end of stream
                     break;
             }
-
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (inputStream != null){
+        }finally {
+            if(inputStream != null){
                 try {
                     inputStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            if (outputStream != null){
+            if(outputStream != null){
                 try {
                     outputStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            if (clientSocket != null){
+            if(clientSocket != null){
                 try {
                     clientSocket.close();
                 } catch (IOException e) {
@@ -82,45 +80,89 @@ public class ClientThread extends Thread {
                 }
             }
         }
+
+
+    }
+
+
+    private boolean readUserNameAndPasswordFromStream() throws IOException {
+        int userNameLength = inputStream.read();
+        if(userNameLength == -1)
+            return false;
+        byte[] userNameBytes = new byte[userNameLength];
+        int actuallyRead;
+        actuallyRead = inputStream.read(userNameBytes);
+        if(actuallyRead != userNameLength)
+            return false;
+        userName = new String(userNameBytes);
+
+        int passwordLength = inputStream.read();
+        if(passwordLength == -1)
+            return false;
+        byte[] passwordBytes = new byte[passwordLength];
+        actuallyRead = inputStream.read(passwordBytes);
+        if(actuallyRead != passwordLength)
+            return false;
+        password = new String(passwordBytes);
+        return true;
     }
 
     private void signUp() throws IOException {
-        String username, password;
-
-        //get username
-        int usernameLength = inputStream.read();
-        if (usernameLength == -1)
+        if(!readUserNameAndPasswordFromStream())
             return;
-        byte[] usernameBytes = new byte[usernameLength];
-        int actuallyRead = inputStream.read(usernameBytes);
-        if (actuallyRead != usernameLength)
-            return;
-        username = new String(usernameBytes);
-
-        //get password
-        int passwordLength = inputStream.read();
-        if (passwordLength == -1)
-            return;
-        byte[] passwordBytes = new byte[passwordLength];
-        actuallyRead = inputStream.read(passwordBytes);
-        if (actuallyRead != passwordLength)
-            return;
-        password = new String(passwordBytes);
-
-        boolean success = mainServlet.signUp(username, password);
-
+        boolean success = mainServlet.signUp(userName, password);
         outputStream.write(success ? SUCCESS : FAILURE);
     }
 
-    private void logIn(){
+    private void login() throws IOException {
+        if(!readUserNameAndPasswordFromStream())
+            return;
+        boolean success = mainServlet.login(userName, password);
+        outputStream.write(success ? SUCCESS : FAILURE);
+    }
+
+    private void sendMessage() throws IOException {
+        if(!readUserNameAndPasswordFromStream())
+            return;
+        String content, recipient;
+        int contentLength = inputStream.read();
+        if(contentLength == -1)
+            return;
+        byte[] contentBytes = new byte[contentLength];
+        int actuallyRead = inputStream.read(contentBytes);
+        if(actuallyRead != contentLength)
+            return;
+        content = new String(contentBytes, 0, actuallyRead);
+        int recipientLength = inputStream.read();
+        if(recipientLength == -1)
+            return;
+        byte[] recipientBytes = new byte[recipientLength];
+        actuallyRead = inputStream.read(recipientBytes);
+        if(actuallyRead != recipientLength)
+            return;
+        recipient = new String(recipientBytes, 0, actuallyRead);
+        boolean success = mainServlet.sendMessage(userName, password,
+                content, recipient);
+        outputStream.write(success ? SUCCESS : FAILURE);
+
 
     }
 
-    private void sendMessage(){
-
-    }
-
-    private void checkForMessages(){
+    private void checkForMessages() throws IOException {
+        if(!readUserNameAndPasswordFromStream())
+            return;
+        if(!mainServlet.login(userName, password))
+            return;
+        User existingUser = mainServlet.users.get(userName);
+        Message msg;
+        while((msg = existingUser.messages.poll()) != null) {
+            byte[] contentBytes = msg.getContent().getBytes();
+            byte[] senderBytes = msg.getSender().getBytes();
+            outputStream.write(contentBytes.length);
+            outputStream.write(contentBytes);
+            outputStream.write(senderBytes.length);
+            outputStream.write(senderBytes);
+        }
 
     }
 }

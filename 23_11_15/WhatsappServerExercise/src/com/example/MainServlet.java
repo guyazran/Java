@@ -15,25 +15,22 @@ import java.util.HashSet;
  */
 public class MainServlet extends javax.servlet.http.HttpServlet {
 
-    private HashMap<String, User> users;
-    private HashSet<String> blacklist;
-
+    protected HashMap<String, User> users;
+    private HashSet<String> blackList;
     private TCPListenerThread tcpListenerThread;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        tcpListenerThread  = new TCPListenerThread(this);
-        tcpListenerThread.start();
-
         users = new HashMap<>();
-        blacklist = new HashSet<String>();
+        blackList = new HashSet<>();
+        tcpListenerThread = new TCPListenerThread(this);
+        tcpListenerThread.start();
     }
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        if (blacklist.contains(request.getRemoteUser()))
+        if(blackList.contains(request.getRemoteUser()))
             return;
-
         InputStream inputStream = request.getInputStream();
         int actuallyRead;
         byte[] buffer = new byte[1024];
@@ -54,24 +51,18 @@ public class MainServlet extends javax.servlet.http.HttpServlet {
             switch (action) {
                 case "signup":
                     success = signUp(userName, password);
+                    System.out.println("signup " + userName);
                     break;
                 case "login":
-                    userName = jsonObject.getString("userName");
-                    password = jsonObject.getString("password");
                     success = login(userName, password);
                     break;
                 case "sendmessage":
-                    userName = jsonObject.getString("userName");
-                    password = jsonObject.getString("password");
-
                     String recipient = jsonObject.getString("recipient");
                     String content = jsonObject.getString("content");
                     success = sendMessage(userName, password, content, recipient);
 
                     break;
                 case "checkformessages":
-                    userName = jsonObject.getString("userName");
-                    password = jsonObject.getString("password");
                     JSONArray messagesToClient = checkMessages(userName, password);
                     if(messagesToClient != null) {
                         jsonResponse.put("messages", messagesToClient);
@@ -97,10 +88,9 @@ public class MainServlet extends javax.servlet.http.HttpServlet {
         boolean success = true;
         User user = new User(userName, password);
         synchronized (users) {
-            if (users.containsKey(userName)) {
+            if (users.containsKey(userName))
                 success = false;
-            }
-            if (success) {
+            if(success) {
                 users.put(userName, user);
             }
         }
@@ -127,11 +117,22 @@ public class MainServlet extends javax.servlet.http.HttpServlet {
         return true;
     }
 
+
+
     JSONArray checkMessages(String userName, String password) throws JSONException {
         if(!login(userName, password))
             return null;
         User existingUser = users.get(userName);
-        return existingUser.getMessages();
+        JSONArray jsonMessages = new JSONArray();
+        Message msg;
+        while((msg = existingUser.messages.poll()) != null){
+            JSONObject jsonMessage = new JSONObject();
+            jsonMessage.put("sender", msg.getSender());
+            jsonMessage.put("content", msg.getContent());
+            jsonMessage.put("receiveTime", msg.getReceiveTime());
+            jsonMessages.put(jsonMessage);
+        }
+        return jsonMessages;
     }
 
     @Override

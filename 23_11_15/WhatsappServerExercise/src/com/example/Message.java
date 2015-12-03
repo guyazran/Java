@@ -3,7 +3,7 @@ package com.example;
 /**
  * Created by guyazran on 11/23/15.
  */
-public class Message {
+public class Message implements Comparable<Message>{
     private String content, sender, recipient;
     private long receiveTime;
 
@@ -11,6 +11,7 @@ public class Message {
         this.content = content;
         this.sender = sender;
         this.recipient = recipient;
+        receiveTime = System.currentTimeMillis();
     }
 
 
@@ -36,16 +37,20 @@ public class Message {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if(obj == null)
             return false;
-        if (obj == this)
+        if(obj == this)
             return true;
-        if (obj instanceof Message) {
-            Message otherMessage = (Message) obj;
+        if(obj instanceof Message){
+            Message otherMessage = (Message)obj;
             return this.receiveTime == otherMessage.receiveTime && this.content.equals(otherMessage.content) && this.sender.equals(otherMessage.sender) && this.recipient.equals(otherMessage.recipient);
         }
         return false;
     }
 
-
+    @Override
+    public int compareTo(Message o) {
+        int delta = (int)(this.receiveTime - o.receiveTime);
+        return delta;
+    }
 }
