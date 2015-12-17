@@ -1,6 +1,6 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf130
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fnil\fcharset0 Menlo-Regular;
-\f3\fnil\fcharset0 Menlo-Bold;}
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;\f2\fmodern\fcharset0 Courier;
+\f3\fnil\fcharset0 Menlo-Regular;\f4\fnil\fcharset0 Menlo-Bold;}
 {\colortbl;\red255\green255\blue255;\red26\green26\blue26;\red234\green234\blue234;\red239\green239\blue239;
 \red0\green0\blue128;}
 \paperw11905\paperh16837\margl1440\margr1440\vieww10800\viewh8400\viewkind0
@@ -44,30 +44,43 @@ sudo apt-get upgrade     \
 y                                      \
 (confirm that you want to install the updates)\
 \
-sudo apt-get install default-jre \
-(installs the latest stable version of the java runtime environment)\
+
+\f1 install JRE\{
+\f0 \
+	sudo apt-get install default-jre \
+	(installs the latest stable version of the java runtime environment)\
 \
-sudo apt-get remove default-jre\
-(the previous command installed java 1.6 that is too old. this command will remove the installation)\
+	sudo apt-get remove default-jre\
+	(the previous command installed java 1.6 that is too old. this command will remove the installation)\
 \
 \pard\pardeftab720\sl373\partightenfactor0
 
-\f1\fs26 \cf0 \expnd0\expndtw0\kerning0
-sudo apt-get install openjdk-7-jre
+\f2\fs26 \cf0 \expnd0\expndtw0\kerning0
+	sudo apt-get install openjdk-7-jre
 \f0\fs24 \kerning1\expnd0\expndtw0 \
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
-\cf0 (installs java runtime environment 1.7)\
+\cf0 	(installs java runtime environment 1.7)\
 \
-java -version\
-(check what java version is installed on the server)\
+\pard\pardeftab720\sl373\partightenfactor0
+
+\f2\fs26 \cf0 \expnd0\expndtw0\kerning0
+	sudo apt-get install openjdk-8-jre
+\f0\fs24 \kerning1\expnd0\expndtw0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural\partightenfactor0
+\cf0 	(installs java runtime environment 1.8)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+	java -version\
+	(check what java version is installed on the server)\
+\}\
 \
-sudo apt-get install tomcat7\
-(installs apache tomcat 7 *requires java)\
+sudo apt-get install tomcat8\
+(installs apache tomcat 8 *requires java)\
 \
-sudo apt-get install tomcat7-admin\
+sudo apt-get install tomcat8-admin\
 (installs tomcat web gui)\
 \
-sudo nano /etc/tomcat7/tomcat-users.xml\
+sudo nano /etc/tomcat8/tomcat-users.xml\
 (opens nano, a linux text editor, and opens tomcat-users.xml)\
 \
 edit the xml to show the following:\
@@ -77,7 +90,7 @@ edit the xml to show the following:\
 type: ctrl+x to exit, type \'93y\'94 to save and then \'93enter\'94 to save in the same file directory.\
 \
 \
-sudo nano /etc/default/tomcat7\
+sudo nano /etc/default/tomcat8\
 (opens tomcat configurations in nano)\
 \
 \
@@ -89,17 +102,17 @@ type: ctrl+x to exit, type \'93y\'94 to save and then \'93enter\'94 to save in t
 \
 sudo touch /etc/authbind/byport/80\
 sudo chmod 500 /etc/authbind/byport/80\
-sudo chown tomcat7 /etc/authbind/byport/80\
+sudo chown tomcat8 /etc/authbind/byport/80\
 (binds tomcat to port 80 for http)\
 \
-sudo nano /usr/share/tomcat7/bin/startup.sh\
+sudo nano /usr/share/tomcat8/bin/startup.sh\
 (opens startup script in nano)\
 \
 change: exec \'93$PRGDIR\'94/\'93$EXECUTABLE\'94 start \'93$@\'93 (last line)\
 to: exec authbind  --deep \'93$PRGDIR\'94/\'93$EXECUTABLE\'94 start \'93$@\'93\
 (recommended to leave the line in comment for a backup)\
 \
-sudo nano /etc/tomcat7/server.xml\
+sudo nano /etc/tomcat8/server.xml\
 (opens an xml file)\
 \
 find this:\
@@ -110,12 +123,62 @@ find this:\
 change to port 80\
 change to redirect port 443\
 \
-sudo service tomcat7 restart\
-(will restart tomcat7)\
+sudo service tomcat8 restart\
+(will restart tomcat8)\
+\
+install mysql\{\
+	sudo apt-get install mysql-server\
+	(installs mysql on the server)\
+\
+	prompt: root user password\
+	type in password and remember it\
+	(this will be the main password to access this mysql server)\
+\
+	sudo mysql -u root -p\
+	type: mysql password\
+	(connect to the mysql server)\
+\
+	type mysql command: GRANT ALL ON *.* TO root@\'91%\'92 IDENTIFIED BY \'91(mysql password)\'92\
+	(grants access to mysql from remote user. instead of % after @, type the ip from which you would like to access the service. this can be changed in workbench under users and privileges)\
+	\
+	FLUSH PRIVILEGES\
+	(refresh the server and execute all changes made to the server)\
+	\
+	exit\
+	(quit server)\
+\
+	sudo nano /etc/mysql/my.cnf\
+	find: \'93bind-address\'94\
+	put this line in a comment\
+	(this will allow to write to the server from a remote user. this should be enabled after production)\
+	\
+	sudo service mysql restart\
+	(restart the server)\
+\}\
 \
 \
 back to console.developers.com\
 \
+open port for tcp:\
+console.developers.com\
+networking => firewall rules\
+click new rule\
+name: rule name\
+source filter: allow from any source (0.0.0.0/0)\
+allowed protocols and ports: tcp:(tcp port number)\
+\
+open port for mysql:\
+console.developers.com\
+networking => firewall rules\
+click new rule\
+name: rule name\
+source filter: allow from any source (0.0.0.0/0)\
+allowed protocols and ports: tcp:3306\
+(this is the default mysql port. this rule should be removed after production)\
+\
+\
+open site:\
+go to the virtual machine\
 click the external ip\
 add to the url \'93/manager\'94\
 insert username and password from tomcat-users.xml\
@@ -126,7 +189,7 @@ open intellij and create a new java project while checking the \'93web applicati
 open \'93web\'94 directory and delete \'93index.jsp\'94\
 create an index.html file in \'93web\'94 folder\
 \
-download tomcat 7 server to your computer: {\field{\*\fldinst{HYPERLINK "https://tomcat.apache.org/download-70.cgi"}}{\fldrslt https://tomcat.apache.org/download-70.cgi}}\
+download tomcat 8 server to your computer: {\field{\*\fldinst{HYPERLINK "https://tomcat.apache.org/download-70.cgi"}}{\fldrslt https://tomcat.apache.org/download-70.cgi}}\
 download the core version (zip)\
 unzip the downloaded file and move the files to the folder you want it to be in\
 \
@@ -152,19 +215,19 @@ right click \'93src\'94 and create a new Servlet and call it MainServlet\
 in the newly created xml add the following:\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f2 \cf0 \cb4 <
-\f3\b \cf5 servlet-mapping
-\f2\b0 \cf0 >\cb1 \uc0\u8232     \cb4 <
-\f3\b \cf5 servlet-name
-\f2\b0 \cf0 >\cb1 MainServlet\cb4 </
-\f3\b \cf5 servlet-name
-\f2\b0 \cf0 >\cb1 \uc0\u8232     \cb4 <
-\f3\b \cf5 url-pattern
-\f2\b0 \cf0 >\cb1 /MainServlet\cb4 </
-\f3\b \cf5 url-pattern
-\f2\b0 \cf0 >\cb1 \uc0\u8232 \cb4 </
-\f3\b \cf5 servlet-mapping
-\f2\b0 \cf0 >\
+\f3 \cf0 \cb4 <
+\f4\b \cf5 servlet-mapping
+\f3\b0 \cf0 >\cb1 \uc0\u8232     \cb4 <
+\f4\b \cf5 servlet-name
+\f3\b0 \cf0 >\cb1 MainServlet\cb4 </
+\f4\b \cf5 servlet-name
+\f3\b0 \cf0 >\cb1 \uc0\u8232     \cb4 <
+\f4\b \cf5 url-pattern
+\f3\b0 \cf0 >\cb1 /MainServlet\cb4 </
+\f4\b \cf5 url-pattern
+\f3\b0 \cf0 >\cb1 \uc0\u8232 \cb4 </
+\f4\b \cf5 servlet-mapping
+\f3\b0 \cf0 >\
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
 
 \f0 \cf0 \cb1 \
@@ -195,25 +258,14 @@ this allows the server to accept http and tcp requests simultaneously.\
 the MainServlet will start this thread in a method called init(), that is called upon the first request to the server.\
 the thread should be stopped on the Servlet method destroy();\
 \
-open port:\
-console.developers.com\
-networking => firewall rules\
-click new rule\
-name: rule name\
-source filter: allow from any source (0.0.0.0/0)\
-allowed protocols and ports: tcp:(port number)\
-\
 create snapshot (saves a copy of the disk. an instance can be made from this):\
 name: name\
 source disk: the instance you want to save\
 encryption: automatic\
 \
-\
-make your servlet open on your main page (without path)\
-\
+make your servlet open on your main page (without path):\
 in terminal type:\
 sudo nano /etc/tomcat7/server.xml\
-\
 add this to the end of the file:\
 <Context path=\'93\'94 docBase=\'93_your_war_name_no_extension_\'94 debug=\'930\'94 reloadable=\'93true\'94></Context>\
 \
